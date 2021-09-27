@@ -3,15 +3,13 @@ public class ChristmasSong{
         ChristmasSong day_info = new ChristmasSong();
         int para = 1;
         String line_n = "A partridge in a pear tree.\n";
-        String paragraph;
         while (para <= 12){
             String[] day_line = day_info.get_day_and_lines(para);
             String line_1 = "On the " + day_line[0] + " day of Christmas\nmy true love sent to me";
             if (para != 1){
                 line_n = day_line[1] + "\n" + line_n;
             }
-            paragraph = line_1 + "\n" + line_n;
-            System.out.println(paragraph);
+            System.out.println(line_1 + "\n" + line_n);
             para = para + 1;
         }
     }

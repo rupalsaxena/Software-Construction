@@ -9,17 +9,3 @@ Folder3: assign_1 \
 .\
 so on ...
 
-In Folders, \
-assign_0 \
---------Problem1.java\
---------Problem2.java\
---------.\
---------so on ...
-
-assign_1\
---------Problem1.java\
---------Problem2.java\
---------.\
---------so on ...
-
-Please note that names of the files in the folder will be changed as per public class in that particular java file.

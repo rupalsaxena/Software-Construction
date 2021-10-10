@@ -53,7 +53,7 @@ public class Board {
         return board;
     }
     
-    public static void printBoard(int[][] boardState) {
+    public static void print_board(int[][] boardState) {
         for (int i=0;i<8;i++){
             for (int j=0;j<8;j++){
                 System.out.print(board[i][j]);
@@ -61,5 +61,22 @@ public class Board {
             }
             System.out.print("\n");
         }
+    }
+
+    public static void display_board(int[][] board) throws Exception{
+        System.out.print("      a     b     c     d     e     f     g     h\n");
+        System.out.print("  +-------------------------------------------------+\n");
+        for (int i = 0; i < 8; i++) {
+            int mapped_row = Mapper.reverse_map_rows(i);
+            System.out.print(mapped_row +" |");
+            for (int j = 0; j < 8; j ++) {
+                int board_value = board[i][j];
+                String[] mapped_board_value = Mapper.map_board_values(board_value);
+                System.out.print(" [" + mapped_board_value[2] + "]" );
+            }
+            System.out.print(" | " + mapped_row +"\n");
+        }
+        System.out.print("  +-------------------------------------------------+\n");
+        System.out.print("      a     b     c     d     e     f     g     h\n");
     }
 }

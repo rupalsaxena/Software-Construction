@@ -7,24 +7,27 @@ public class Checkers {
 
         int[][] board = Board.init_board();
         Board.display_board(board);
-        // Board.print_board(board); // for printing initial board
+        // Board.print_board(board); // for printing board array
 
         Checkers checkers = new Checkers();
-        String player = "Red"; /* for now. delete later */
-        String new_move = checkers.input_move(player);
+        Validation validate = new Validation();
+        String player;
 
-        Mapper m = new Mapper();
-        int mapped_row = m.map_rows(1); // input row from input here to get mapped row for 2d board array
-        int mapped_col = m.map_columns("b"); // input col from input here to get mapped col for 2d board array
-        int board_value = board[mapped_row][mapped_col]; // getting values of board
-        String[] mapped_board_value = m.map_board_values(board_value); // mapping those values to white, pawn;
-
+        for (int i = 1; i < 3; i++) { // TODO: increase loops later
+            if (i%2 == 0) player = "White";
+            else player = "Red";
+            for (int j = 1; j < 3; j++) { // TODO: increase loops later
+                String new_move = checkers.input_move(player);
+                Boolean validity = validate.is_valid_input(new_move);
+                if (validity == true) break;
+                else System.out.println("Invalid move!");
+            }
+        }
     }
 
     public String input_move(String player) {
         System.out.println("Input your move player " + player + ":");
         String input = scanner.nextLine();
-        scanner.close();
         return input;
     }
 }

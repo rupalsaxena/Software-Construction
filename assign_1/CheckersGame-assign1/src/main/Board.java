@@ -2,12 +2,12 @@ public class Board {
     static int[][] board = new int[8][8];
 
     public static int[][] init_board() {
-        //white checks = -1
-        //black empty = 0
-        //red pawn = 2
-        //white pawn = 4
-        //red king = 1
-        //white king = 3
+        /* white checks = -1
+        black empty = 0
+        red pawn = 2
+        white pawn = 4
+        red king = 1
+        white king = 3 */
 
         //For the Red player
         for (int i = 1; i < 4; i++) {

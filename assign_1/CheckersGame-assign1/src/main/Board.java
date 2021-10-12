@@ -1,4 +1,5 @@
 public class Board {
+    // todo: create update board method
     static int[][] board = new int[8][8];
 
     public static int[][] init_board() {
@@ -63,7 +64,7 @@ public class Board {
         }
     }
 
-    public static void display_board(int[][] board) throws Exception{
+    public static void display_board(int[][] board) {
         System.out.print("      a     b     c     d     e     f     g     h\n");
         System.out.print("  +-------------------------------------------------+\n");
         for (int i = 0; i < 8; i++) {

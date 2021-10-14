@@ -40,6 +40,7 @@ public class Validation {
     }
     public static boolean is_valid_move(String[] positions) {
         Mapper m = new Mapper();
+        Moves moves = new Moves();
 
         int current_mapped_row = m.map_rows(Integer.valueOf(positions[1]));
         int future_mapped_row = m.map_rows(Integer.valueOf(positions[3]));
@@ -54,7 +55,18 @@ public class Validation {
         String[] mapped_future_board_values = m.map_board_values(future_board_value);
 
         String player = Game.player;
-
+        if (current_board_value == 2) { // red pawn
+            if (future_mapped_row < current_mapped_row) {
+                System.out.print("Pawn cannot move in opposite direction! \n");
+                return false;
+            }
+        }
+        if (current_board_value == 4) { // white pawn
+            if (future_mapped_row > current_mapped_row) {
+                System.out.print("Pawn cannot move in opposite direction! \n");
+                return false;
+            }
+        }
         if (current_board_value == -1) {
             System.out.print("Your move is from White checkers! ");
             return false;
@@ -75,9 +87,11 @@ public class Validation {
             System.out.print("This is not your piece! ");
             return false;
         }
+
+        // boolean validate_move = Moves.check_move(current_mapped_row, current_mapped_col, future_mapped_row, future_mapped_col);
+        // if (!validate_move) return false;
         return true;
         // todo:
-        // if pawn then move should be in one direction
         // if king move can be in any direction
         // check single, simple, multiple jump move
     }

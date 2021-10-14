@@ -53,7 +53,7 @@ public class Validation {
         String[] mapped_current_board_values = m.map_board_values(current_board_value);
         String[] mapped_future_board_values = m.map_board_values(future_board_value);
 
-        String player = Checkers.player;
+        String player = Game.player;
 
         if (current_board_value == -1) {
             System.out.print("Your move is from White checkers! ");

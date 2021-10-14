@@ -1,7 +1,7 @@
-public class Checkers {
+public class Game {
     static String player;
 
-    public static void main(){
+    public static void Play(){
         System.out.print("Welcome to Checkers Game! \n");
 
         int[][] board = Board.init_board();
@@ -23,6 +23,10 @@ public class Checkers {
             // todo: check game state before asking for next move else break the loop
         }
 
+    }
+
+    public static void main(String[] args) {
+        Game.Play();
     }
 
 }

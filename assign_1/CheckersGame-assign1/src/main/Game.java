@@ -2,7 +2,7 @@ public class Game {
     static String player;
     static String game_state;
 
-    public static void Play(){
+    public static void play(){
         System.out.print("Welcome to Checkers Game! \n");
 
         game_state = "Started";
@@ -44,7 +44,7 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Game.Play();
+        Game.play();
     }
 
 }

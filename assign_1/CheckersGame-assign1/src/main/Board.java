@@ -1,7 +1,9 @@
+import java.util.Arrays;
+
 public class Board {
     static int[][] board = new int[8][8];
 
-    public static int[][] init_board() {
+    public static int[][] setBoard() {
         /* white checks = -1
         black empty = 0
         red pawn = 2
@@ -53,17 +55,17 @@ public class Board {
         return board;
     }
     
-    public static void print_board(int[][] boardState) {
+    public static void printBoard(int[][] boardState) {
         for (int i=0;i<8;i++){
             for (int j=0;j<8;j++){
-                System.out.print(board[i][j]);
+                System.out.print(boardState[i][j]);
                 System.out.print("  ");
             }
             System.out.print("\n");
         }
     }
 
-    public static void display_board(int[][] board) throws Exception{
+    public static void display_board(int[][] board) {
         System.out.print("      a     b     c     d     e     f     g     h\n");
         System.out.print("  +-------------------------------------------------+\n");
         for (int i = 0; i < 8; i++) {
@@ -79,4 +81,19 @@ public class Board {
         System.out.print("  +-------------------------------------------------+\n");
         System.out.print("      a     b     c     d     e     f     g     h\n");
     }
+
+//todo
+//We need to have "current board" where we make the updates to pieces positions
+//the easiest way so far to update the board is to track just one player and one change at a time
+//this means, moves or conditions where multiple pieces are affected, need to be broken down into multiple
+//smaller updates
+    public static int[][] updateBoard(int piece, int[] initialToFinalPosition, int[][] currentBoard) {
+        System.out.print("Piece = ");
+        System.out.print(piece);
+        System.out.print("Initial to final position = ");
+        System.out.print(Arrays.toString(initialToFinalPosition));
+        return currentBoard; //todo: change to updated board
+    }
 }
+
+

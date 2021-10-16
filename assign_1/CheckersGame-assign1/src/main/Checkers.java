@@ -54,15 +54,19 @@ public class Checkers {
 //            String[] split_move = move.split("x");
 //            System.out.print(Arrays.deepToString(split_move));
             System.out.print("\n");
-            System.out.print(move.split(""));
-            System.out.print("\n");
+            //System.out.print(move.split(""));
+            //System.out.print("\n");
             char[] char_input = move.replaceAll("[\\[\\]x]","").toCharArray();
             System.out.print(char_input[0]+" "+char_input[1]+" "+char_input[2]+" "+char_input[3]);
             System.out.print("\n");
-            System.out.print(move.split("(?<=.)"));
-            System.out.print("\n");
+            //System.out.print(move.split("(?<=.)"));
+            //System.out.print("\n");
             //map characters to integers
-            return new int[] {1,2,3,4};
+            int row_start = Mapper.map_rows(char_input[0]);
+            int row_end = Mapper.map_rows(char_input[2]);
+            int col_start = Mapper.map_columns(char_input[1]);
+            int col_end = Mapper.map_columns(char_input[2]);
+            return new int[] {row_start,col_start,row_end,col_end};
         }
         else{
             System.out.print(regex_full_match+"\n");
@@ -73,7 +77,17 @@ public class Checkers {
     }
     public static int playerTurnValidate(String inputMove){
         //use input move and current player info to return 1 or 0
-        return 0;
+        //1 -> player turn is valid
+        //0 -> player turn is invalid
+        boolean isInputMoveNotBounded = Arrays.equals(Checkers.processInputMove(inputMove), new int[] {0});
+        if ((Checkers.currentPlayer == Checkers.playerTurn) && (!isInputMoveNotBounded)) {
+            System.out.print("correct move, changing Player turn");
+            return 1;
+        }
+        else{
+            System.out.print("incorrect move, same Player turn again");
+            return 0;
+        }
     }
 //    public static void makePawns() {
 //        for (i=0;i<30;i++){

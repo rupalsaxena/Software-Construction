@@ -1,5 +1,6 @@
+import java.util.Map;
+
 public class Board {
-    // todo: create update board method
     static int[][] board = new int[8][8];
 
     public static int[][] init_board() {
@@ -79,5 +80,27 @@ public class Board {
         }
         System.out.print("  +-------------------------------------------------+\n");
         System.out.print("      a     b     c     d     e     f     g     h\n");
+    }
+
+    public static int[][] update_board(String input) {
+        // todo: update when there is a king piece
+        // todo: update in case of knockout
+        Mapper m = new Mapper();
+
+        String[] col_rows = utils.get_current_future_positions(input);
+
+        int current_mapped_row = m.map_rows(Integer.valueOf(col_rows[1]));
+        int future_mapped_row = m.map_rows(Integer.valueOf(col_rows[3]));
+
+        int current_mapped_col = m.map_columns(col_rows[0]);
+        int future_mapped_col = m.map_columns(col_rows[2]);
+
+        int current_board_value = Board.board[current_mapped_row][current_mapped_col];
+        // see later what happen when there is a king in the game
+
+        Board.board[current_mapped_row][current_mapped_col] = 0;
+        Board.board[future_mapped_row][future_mapped_col] = current_board_value;
+
+        return Board.board;
     }
 }

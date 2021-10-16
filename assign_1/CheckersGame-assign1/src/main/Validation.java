@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class Validation {
     public static boolean is_valid_input(String input) {
@@ -92,8 +92,26 @@ public class Validation {
         // if (!validate_move) return false;
         return true;
         // todo:
-        // if king move can be in any direction
+        // if king then can move in any direction
         // check single, simple, multiple jump move
     }
 
+    public static String update_game_state() {
+        String game_state = Game.game_state;
+        List<Integer> pieces = new ArrayList<Integer>();
+        int[][] board = Board.board;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                int board_value = board[i][j];
+                if (board_value != 0 && board_value != -1) {
+                    pieces.add(board_value);
+                }
+            }
+        }
+        int size = pieces.size();
+        if (size == 1) {
+            game_state = "GameOver";
+        }
+        return game_state;
+    }
 }

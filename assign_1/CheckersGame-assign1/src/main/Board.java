@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.util.List;
-import java.util.Map;
 
 public class Board {
     static int[][] board = new int[8][8];

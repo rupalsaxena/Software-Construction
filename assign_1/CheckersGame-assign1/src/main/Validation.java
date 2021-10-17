@@ -93,9 +93,6 @@ public class Validation {
         boolean validate_move = Moves.check_move(current_mapped_row, current_mapped_col, future_mapped_row, future_mapped_col);
         if (!validate_move) return false;
         return true;
-        // todo:
-        // if king then can move in any direction
-        // check single, simple, multiple jump move
     }
 
     public static String update_game_state() {

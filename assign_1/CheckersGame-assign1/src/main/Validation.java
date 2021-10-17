@@ -80,16 +80,18 @@ public class Validation {
             return false;
         }
         if (!mapped_future_board_values[1].equals("empty")) {
-            System.out.print("Future move already has a piece! ");
-            return false;
+            if (player.equals(mapped_future_board_values[0])) {
+                System.out.print("Future move already has your piece! ");
+                return false;
+            }
         }
         if (!mapped_current_board_values[1].equals("empty") && !mapped_current_board_values[0].equals(player)) {
             System.out.print("This is not your piece! ");
             return false;
         }
 
-        // boolean validate_move = Moves.check_move(current_mapped_row, current_mapped_col, future_mapped_row, future_mapped_col);
-        // if (!validate_move) return false;
+        boolean validate_move = Moves.check_move(current_mapped_row, current_mapped_col, future_mapped_row, future_mapped_col);
+        if (!validate_move) return false;
         return true;
         // todo:
         // if king then can move in any direction

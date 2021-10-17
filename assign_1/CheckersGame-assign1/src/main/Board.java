@@ -1,3 +1,5 @@
+import java.awt.*;
+import java.util.List;
 import java.util.Map;
 
 public class Board {
@@ -83,9 +85,10 @@ public class Board {
     }
 
     public static int[][] update_board(String input) {
-        // todo: update when there is a king piece
-        // todo: update in case of knockout
         Mapper m = new Mapper();
+        String player = Game.player;
+        int future_board_value;
+        List<Point> knock_out_positions = Moves.knock_out_positions;
 
         String[] col_rows = utils.get_current_future_positions(input);
 
@@ -96,11 +99,23 @@ public class Board {
         int future_mapped_col = m.map_columns(col_rows[2]);
 
         int current_board_value = Board.board[current_mapped_row][current_mapped_col];
-        // see later what happen when there is a king in the game
+        future_board_value = current_board_value;
+
+        if (player.equals("Red") && future_mapped_row == 7 && current_board_value%2 == 0) {
+            future_board_value = 1;
+        }
+        if (player.equals("White") && future_mapped_row == 0 && current_board_value%2 == 0) {
+            future_board_value = 3;
+        }
 
         Board.board[current_mapped_row][current_mapped_col] = 0;
-        Board.board[future_mapped_row][future_mapped_col] = current_board_value;
+        Board.board[future_mapped_row][future_mapped_col] = future_board_value;
 
+        for (int i = 0; i < knock_out_positions.size(); i++) {
+            int row = (int) knock_out_positions.get(i).getX();
+            int col = (int) knock_out_positions.get(i).getY();
+            Board.board[row][col] = 0;
+        }
         return Board.board;
     }
 }

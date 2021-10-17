@@ -10,7 +10,6 @@ public class Game {
 
         int[][] board = Board.init_board();
         Board.display_board(board);
-        // Board.print_board(board); // for printing board array
 
         Validation validate = new Validation();
         int i = 1;

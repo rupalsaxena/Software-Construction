@@ -97,18 +97,25 @@ public class Validation {
 
     public static String update_game_state() {
         String game_state = Game.game_state;
-        List<Integer> pieces = new ArrayList<Integer>();
+        List<Integer> white_pieces = new ArrayList<Integer>();
+        List<Integer> red_pieces = new ArrayList<Integer>();
         int[][] board = Board.board;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 int board_value = board[i][j];
-                if (board_value != 0 && board_value != -1) {
-                    pieces.add(board_value);
+                if (board_value == 2 || board_value == 1) {
+                    red_pieces.add(board_value);
+                }
+                if (board_value == 3 || board_value == 4) {
+                    white_pieces.add(board_value);
                 }
             }
         }
-        int size = pieces.size();
-        if (size == 1) {
+
+        int len_white_pieces = white_pieces.size();
+        int len_red_pieces = red_pieces.size();
+
+        if (len_white_pieces == 0 || len_red_pieces == 0) {
             game_state = "GameOver";
         }
         return game_state;

@@ -6,7 +6,7 @@ public class Moves {
     Class responsibility is to check and priortise allowed moves in a particular chance of player.
      */
 
-    public static List<Point> possible_positions = new ArrayList<Point>();
+    public static List<Point> possible_diagonal_positions = new ArrayList<Point>();
     public static List<Point> knock_out_positions = new ArrayList<Point>();
 
     public static boolean check_move(int current_row, int current_col, int future_row, int future_col) {
@@ -20,20 +20,20 @@ public class Moves {
         // check for simple move
 
         // get possible positions of adjacent diagonals where simple move can be possible
-        possible_positions = Moves.get_possible_simple_move_positions(current_row, current_col);
+        possible_diagonal_positions = Moves.get_possible_simple_move_positions(current_row, current_col);
 
         // for each possible diagonal positions check if the position is empty
-        for (int i = 0; i < possible_positions.size(); i++){
-            int row = (int) possible_positions.get(i).getX();
-            int col = (int) possible_positions.get(i).getY();
+        for (int i = 0; i < possible_diagonal_positions.size(); i++){
+            int row = (int) possible_diagonal_positions.get(i).getX();
+            int col = (int) possible_diagonal_positions.get(i).getY();
             if (check_if_position_empty(row, col)) {
                 empty_positions.add(new Point(row, col));
             }
         }
 
         // if all possible diagonal positions are empty then single move
-        if (possible_positions.size() == empty_positions.size()) {
-            if (possible_positions.contains(future_point)) {
+        if (possible_diagonal_positions.size() == empty_positions.size()) {
+            if (possible_diagonal_positions.contains(future_point)) {
                 return true;
             }
             else return false;
@@ -66,7 +66,7 @@ public class Moves {
         int x;
         int y;
         Point position;
-        List<Point> possible_positions = new ArrayList<Point>();
+        List<Point> possible_diagonal_positions = new ArrayList<Point>();
 
         int board_value = Board.board[current_row][current_col];
 
@@ -75,53 +75,53 @@ public class Moves {
             y = current_col - 1;
             if ((0 <= x && x <= 7) && (0 <= y && y <= 7)) {
                 position = new Point(x, y);
-                possible_positions.add(position);
+                possible_diagonal_positions.add(position);
             }
             x = current_row - 1;
             y = current_col + 1;
             if ((0 <= x && x <= 7) && (0 <= y && y <= 7)) {
                 position = new Point(x, y);
-                possible_positions.add(position);
+                possible_diagonal_positions.add(position);
             }
             x = current_row + 1;
             y = current_col - 1;
             if ((0 <= x && x <= 7) && (0 <= y && y <= 7)) {
                 position = new Point(x, y);
-                possible_positions.add(position);
+                possible_diagonal_positions.add(position);
             }
             x = current_row + 1;
             y = current_col + 1;
             if ((0 <= x && x <= 7) && (0 <= y && y <= 7)) {
                 position = new Point(x, y);
-                possible_positions.add(position);
+                possible_diagonal_positions.add(position);
             }
         } else if (board_value == 2) {
             x = current_row + 1;
             y = current_col - 1;
             if ((0 <= x && x <= 7) && (0 <= y && y <= 7)) {
                 position = new Point(x, y);
-                possible_positions.add(position);
+                possible_diagonal_positions.add(position);
             }
             y = current_col + 1;
             if ((0 <= x && x <= 7) && (0 <= y && y <= 7)) {
                 position = new Point(x, y);
-                possible_positions.add(position);
+                possible_diagonal_positions.add(position);
             }
         } else if (board_value == 4) {
             x = current_row - 1;
             y = current_col - 1;
             if ((0 <= x && x <= 7) && (0 <= y && y <= 7)) {
                 position = new Point(x, y);
-                possible_positions.add(position);
+                possible_diagonal_positions.add(position);
             }
             y = current_col + 1;
             if ((0 <= x && x <= 7) && (0 <= y && y <= 7)) {
                 position = new Point(x, y);
-                possible_positions.add(position);
+                possible_diagonal_positions.add(position);
             }
         }
 
-        return possible_positions;
+        return possible_diagonal_positions;
     }
 
     public static List get_possible_single_jump_moves(int current_row, int current_col, List empty_positions, Point future_point) {
@@ -132,7 +132,7 @@ public class Moves {
         List<Point> possible_knock_out_positions = new ArrayList<Point>();
         String player = Game.player;
 
-        possible_knock_out_positions.addAll(possible_positions);
+        possible_knock_out_positions.addAll(possible_diagonal_positions);
         possible_knock_out_positions.removeAll(empty_positions);
 
         for (int i = 0; i < possible_knock_out_positions.size(); i++) {

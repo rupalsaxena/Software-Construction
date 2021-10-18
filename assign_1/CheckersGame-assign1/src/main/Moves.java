@@ -142,6 +142,7 @@ public class Moves {
             int knock_out_board_value = Board.board[possible_knock_out_row][possible_knock_out_col];
             String[] mapped_knock_out_board_value = Mapper.map_board_values(knock_out_board_value);
             if (player.equals(mapped_knock_out_board_value[0])) {
+                // piece belong to the same player. Continue checking for next possible knock out position.
                 continue;
             }
 
@@ -155,6 +156,7 @@ public class Moves {
                     possible_single_jump_positions.add(new Point(test_row, test_col));
                     if (possible_single_jump_positions.contains(future_point)) {
                         knock_out_positions.add(new Point(possible_knock_out_row, possible_knock_out_col));
+                        break;
                     }
                 }
             }

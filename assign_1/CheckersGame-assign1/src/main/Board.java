@@ -2,15 +2,25 @@ import java.awt.*;
 import java.util.List;
 
 public class Board {
-    static int[][] board = new int[8][8];
+    /*
+    Class responsibility: To initialize, display, and update the board.
+    This class has a class variable board.
+    This class variable is a 2d int array which stores encoded values of pieces and checkers.
+     */
+
+    public static int[][] board = new int[8][8];
 
     public static int[][] init_board() {
-        /* white checks = -1
+        /*
+        This method is initializing the board. Board is a 2d array storing encoded values of pieces and checkers.
+        Following is the encoding:
+        white checks = -1
         black empty = 0
         red pawn = 2
         white pawn = 4
         red king = 1
-        white king = 3 */
+        white king = 3
+        */
 
         //For the Red player
         for (int i = 1; i < 4; i++) {
@@ -57,6 +67,10 @@ public class Board {
     }
     
     public static void print_board(int[][] boardState) {
+        /*
+        Print the board. This method is not used anywhere but was used for debugging.
+         */
+
         for (int i=0;i<8;i++){
             for (int j=0;j<8;j++){
                 System.out.print(board[i][j]);
@@ -67,6 +81,10 @@ public class Board {
     }
 
     public static void display_board(int[][] board) {
+        /*
+        This method takes 2d array board value convert it to visually understandable form and display it.
+         */
+
         System.out.print("      a     b     c     d     e     f     g     h\n");
         System.out.print("  +-------------------------------------------------+\n");
         for (int i = 0; i < 8; i++) {
@@ -84,11 +102,14 @@ public class Board {
     }
 
     public static int[][] update_board(String input) {
+        /*
+        This method is updating the board in case of knocks out and when pieces are moving.
+         */
+
         Mapper m = new Mapper();
         String player = Game.player;
-        int future_board_value;
-        List<Point> knock_out_positions = Moves.knock_out_positions;
 
+        List<Point> knock_out_positions = Moves.knock_out_positions;
         String[] col_rows = utils.get_current_future_positions(input);
 
         int current_mapped_row = m.map_rows(Integer.valueOf(col_rows[1]));
@@ -98,7 +119,7 @@ public class Board {
         int future_mapped_col = m.map_columns(col_rows[2]);
 
         int current_board_value = Board.board[current_mapped_row][current_mapped_col];
-        future_board_value = current_board_value;
+        int future_board_value = current_board_value;
 
         if (player.equals("Red") && future_mapped_row == 7 && current_board_value%2 == 0) {
             future_board_value = 1;

@@ -1,4 +1,8 @@
 public class Mapper {
+    /*
+    Class responsibility: To provide mapping for rows, cols, and 2d int array board decodings.
+     */
+    
     public static int map_rows(int row) {
         int mapped_row = -1;
         if (row == 8) mapped_row = 0;

@@ -1,6 +1,10 @@
 import java.util.Scanner;
 
 public class utils {
+    /*
+    Class responsibility: To provide some utility functions to support the code.
+     */
+
     static Scanner scanner = new Scanner(System.in);
 
     public static String[] get_current_future_positions(String input) {

@@ -1,7 +1,18 @@
 import java.util.*;
 
 public class Validation {
+    /*
+    Class responsibility is to validate the input. Input validity has two parts.
+    1. to validate input format
+    2. to validate the move
+     */
+
     public static boolean is_valid_input(String input) {
+        /*
+        input: input received from the player
+        return: if input is valid or not by checking input format and moves
+         */
+
         Validation validate = new Validation();
 
         Boolean format_validity = validate.is_valid_input_format(input);
@@ -18,6 +29,11 @@ public class Validation {
     }
 
     public static boolean is_valid_input_format(String input) {
+        /*
+        input: input received from the player
+        return: if the format of the input is valid
+        for eg.: a valid input format should look like this [a1]X[b2]
+        */
         String[] possible_cols = {"a", "b", "c", "d", "e", "f", "g", "h"};
         String[] possible_rows = {"1", "2", "3", "4", "5", "6","7", "8"};
 
@@ -39,6 +55,13 @@ public class Validation {
         return true;
     }
     public static boolean is_valid_move(String[] positions) {
+        /*
+        input array of positions with current col, current row, future col, future row
+        Validates if the current and final moves are correct
+        Collaborates with Moves class
+        return: if a move is valid
+        */
+
         Mapper m = new Mapper();
         Moves moves = new Moves();
 
@@ -91,33 +114,10 @@ public class Validation {
         }
 
         boolean validate_move = Moves.check_move(current_mapped_row, current_mapped_col, future_mapped_row, future_mapped_col);
+
         if (!validate_move) return false;
+
         return true;
     }
 
-    public static String update_game_state() {
-        String game_state = Game.game_state;
-        List<Integer> white_pieces = new ArrayList<Integer>();
-        List<Integer> red_pieces = new ArrayList<Integer>();
-        int[][] board = Board.board;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                int board_value = board[i][j];
-                if (board_value == 2 || board_value == 1) {
-                    red_pieces.add(board_value);
-                }
-                if (board_value == 3 || board_value == 4) {
-                    white_pieces.add(board_value);
-                }
-            }
-        }
-
-        int len_white_pieces = white_pieces.size();
-        int len_red_pieces = red_pieces.size();
-
-        if (len_white_pieces == 0 || len_red_pieces == 0) {
-            game_state = "GameOver";
-        }
-        return game_state;
-    }
 }

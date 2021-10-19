@@ -13,6 +13,7 @@ public class Moves {
         /*
         check if the future move is a valid move. If so is it knocking out some pieces.
          */
+
         List<Point> empty_positions = new ArrayList<Point>();
         Point future_point = new Point(future_row, future_col);
         knock_out_positions.clear();
@@ -63,6 +64,7 @@ public class Moves {
         /*
         return all the possible diagonal move positions irrespective of whether its empty or not.
          */
+
         int x;
         int y;
         Point position;
@@ -128,6 +130,7 @@ public class Moves {
         /*
         return: possible single jump moves
          */
+
         List<Point> possible_single_jump_positions = new ArrayList<Point>();
         List<Point> possible_knock_out_positions = new ArrayList<Point>();
         String player = Game.player;

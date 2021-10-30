@@ -99,8 +99,6 @@ public class Board {
         This method is updating the board in case of knocks out and when pieces are moving.
          */
 
-        // Mapper m = new Mapper();
-
         List<Point> knock_out_positions = Moves.knock_out_positions;
         String[] col_rows = utils.get_current_future_positions(input);
 

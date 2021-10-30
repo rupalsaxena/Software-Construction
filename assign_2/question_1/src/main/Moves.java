@@ -143,9 +143,6 @@ public class Moves {
         return: possible single jump moves
          */
 
-        //List<Point> possible_single_jump_positions = new ArrayList<Point>();
-        //List<Point> possible_knock_out_positions = new ArrayList<Point>();
-
         possible_knock_out_positions.addAll(possible_diagonal_positions);
         possible_knock_out_positions.removeAll(empty_positions);
 

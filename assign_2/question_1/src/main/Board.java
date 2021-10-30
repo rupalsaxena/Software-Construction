@@ -1,16 +1,24 @@
 import java.awt.*;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Board {
     /*
-    Class responsibility: To initialize, display, and update the board.
+    Class responsibility: To initialize, display, update the board, provide piece count to change game state to game over, check input validity.
     This class has a class variable board.
     This class variable is a 2d int array which stores encoded values of pieces and checkers.
      */
 
-    public static int[][] board = new int[8][8];
+    private static int[][] board = new int[8][8];
 
-    public static int[][] init_board() {
+    public Board() {
+        // initialize and display the initial board
+
+        init_board();
+        display_board();
+    }
+
+    private static void init_board() {
         /*
         This method is initializing the board. Board is a 2d array storing encoded values of pieces and checkers.
         Following is the encoding:
@@ -63,24 +71,9 @@ public class Board {
                 }
             }
         }
-        return board;
-    }
-    
-    public static void print_board(int[][] boardState) {
-        /*
-        Print the board. This method is not used anywhere but was used for debugging.
-         */
-
-        for (int i=0;i<8;i++){
-            for (int j=0;j<8;j++){
-                System.out.print(board[i][j]);
-                System.out.print("  ");
-            }
-            System.out.print("\n");
-        }
     }
 
-    public static void display_board(int[][] board) {
+    private static void display_board() {
         /*
         This method takes 2d array board value convert it to visually understandable form and display it.
          */
@@ -101,24 +94,23 @@ public class Board {
         System.out.print("      a     b     c     d     e     f     g     h\n");
     }
 
-    public static int[][] update_board(String input) {
+    public static void update_board(String input, String player) {
         /*
         This method is updating the board in case of knocks out and when pieces are moving.
          */
 
-        Mapper m = new Mapper();
-        String player = Game.player;
+        // Mapper m = new Mapper();
 
         List<Point> knock_out_positions = Moves.knock_out_positions;
         String[] col_rows = utils.get_current_future_positions(input);
 
-        int current_mapped_row = m.map_rows(Integer.valueOf(col_rows[1]));
-        int future_mapped_row = m.map_rows(Integer.valueOf(col_rows[3]));
+        int current_mapped_row = Mapper.map_rows(Integer.valueOf(col_rows[1]));
+        int future_mapped_row = Mapper.map_rows(Integer.valueOf(col_rows[3]));
 
-        int current_mapped_col = m.map_columns(col_rows[0]);
-        int future_mapped_col = m.map_columns(col_rows[2]);
+        int current_mapped_col = Mapper.map_columns(col_rows[0]);
+        int future_mapped_col = Mapper.map_columns(col_rows[2]);
 
-        int current_board_value = Board.board[current_mapped_row][current_mapped_col];
+        int current_board_value = board[current_mapped_row][current_mapped_col];
         int future_board_value = current_board_value;
 
         if (player.equals("Red") && future_mapped_row == 7 && current_board_value%2 == 0) {
@@ -128,14 +120,58 @@ public class Board {
             future_board_value = 3;
         }
 
-        Board.board[current_mapped_row][current_mapped_col] = 0;
-        Board.board[future_mapped_row][future_mapped_col] = future_board_value;
+        board[current_mapped_row][current_mapped_col] = 0;
+        board[future_mapped_row][future_mapped_col] = future_board_value;
 
         for (int i = 0; i < knock_out_positions.size(); i++) {
             int row = (int) knock_out_positions.get(i).getX();
             int col = (int) knock_out_positions.get(i).getY();
-            Board.board[row][col] = 0;
+            board[row][col] = 0;
         }
-        return Board.board;
+        display_board();
+    }
+
+    public static int count_pieces(String player) {
+        /*
+        count and return pieces of given player
+        */
+
+        List<Integer> player_pieces = new ArrayList<Integer>();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                int board_value = board[i][j];
+
+                if (player.equals("Red") && (board_value == 1 || board_value == 2)) {
+                    player_pieces.add(board_value);
+                }
+                if (player.equals("White") && (board_value == 3 || board_value == 4)) {
+                    player_pieces.add(board_value);
+                }
+
+            }
+        }
+        int counter = player_pieces.size();
+
+        return counter;
+    }
+
+    public static boolean check_input_validity(String input, String player) {
+        /*
+        input: input received from the player and player
+        return: if input is valid or not by checking input format and moves
+        */
+
+        Boolean format_validity = Validation.is_valid_input_format(input);
+        if (!format_validity) {
+            return format_validity;
+        }
+
+        String[] col_rows = utils.get_current_future_positions(input);
+        Boolean move_validity = Validation.is_valid_move(col_rows, player, board);
+        if (!move_validity) {
+            return move_validity;
+        }
+        return true;
     }
 }

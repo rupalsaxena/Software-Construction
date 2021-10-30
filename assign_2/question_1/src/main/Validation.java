@@ -7,33 +7,13 @@ public class Validation {
     2. to validate the move
      */
 
-    public static boolean is_valid_input(String input) {
-        /*
-        input: input received from the player
-        return: if input is valid or not by checking input format and moves
-         */
-
-        Validation validate = new Validation();
-
-        Boolean format_validity = validate.is_valid_input_format(input);
-        if (!format_validity) {
-            return format_validity;
-        }
-
-        String[] col_rows = utils.get_current_future_positions(input);
-        Boolean move_validity = validate.is_valid_move(col_rows);
-        if (!move_validity) {
-            return move_validity;
-        }
-        return true;
-    }
-
     public static boolean is_valid_input_format(String input) {
         /*
         input: input received from the player
         return: if the format of the input is valid
         for eg.: a valid input format should look like this [a1]X[b2]
         */
+
         String[] possible_cols = {"a", "b", "c", "d", "e", "f", "g", "h"};
         String[] possible_rows = {"1", "2", "3", "4", "5", "6","7", "8"};
 
@@ -54,30 +34,30 @@ public class Validation {
         }
         return true;
     }
-    public static boolean is_valid_move(String[] positions) {
+
+    public static boolean is_valid_move(String[] positions, String player, int[][] board) {
         /*
         input array of positions with current col, current row, future col, future row
+        input player, board
         Validates if the current and final moves are correct
         Collaborates with Moves class
         return: if a move is valid
         */
 
-        Mapper m = new Mapper();
-        Moves moves = new Moves();
+        Moves moves = new Moves(board, player);
 
-        int current_mapped_row = m.map_rows(Integer.valueOf(positions[1]));
-        int future_mapped_row = m.map_rows(Integer.valueOf(positions[3]));
+        int current_mapped_row = Mapper.map_rows(Integer.valueOf(positions[1]));
+        int future_mapped_row = Mapper.map_rows(Integer.valueOf(positions[3]));
 
-        int current_mapped_col = m.map_columns(positions[0]);
-        int future_mapped_col = m.map_columns(positions[2]);
+        int current_mapped_col = Mapper.map_columns(positions[0]);
+        int future_mapped_col = Mapper.map_columns(positions[2]);
 
-        int current_board_value = Board.board[current_mapped_row][current_mapped_col];
-        int future_board_value = Board.board[future_mapped_row][future_mapped_col];
+        int current_board_value = board[current_mapped_row][current_mapped_col];
+        int future_board_value = board[future_mapped_row][future_mapped_col];
 
-        String[] mapped_current_board_values = m.map_board_values(current_board_value);
-        String[] mapped_future_board_values = m.map_board_values(future_board_value);
+        String[] mapped_current_board_values = Mapper.map_board_values(current_board_value);
+        String[] mapped_future_board_values = Mapper.map_board_values(future_board_value);
 
-        String player = Game.player;
         if (current_board_value == 2) { // red pawn
             if (future_mapped_row < current_mapped_row) {
                 System.out.print("Pawn cannot move in opposite direction! \n");
@@ -113,7 +93,7 @@ public class Validation {
             return false;
         }
 
-        boolean validate_move = Moves.check_move(current_mapped_row, current_mapped_col, future_mapped_row, future_mapped_col);
+        boolean validate_move = moves.check_move(current_mapped_row, current_mapped_col, future_mapped_row, future_mapped_col);
 
         if (!validate_move) return false;
 

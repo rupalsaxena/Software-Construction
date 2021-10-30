@@ -6,22 +6,36 @@ public class Moves {
     Class responsibility is to check and priortise allowed moves in a particular chance of player.
      */
 
-    public static List<Point> possible_diagonal_positions = new ArrayList<Point>();
+    private static List<Point> possible_diagonal_positions = new ArrayList<Point>();
     public static List<Point> knock_out_positions = new ArrayList<Point>();
+    private static List<Point> possible_single_jump_positions = new ArrayList<Point>();
+    private static List<Point> possible_knock_out_positions = new ArrayList<Point>();
+    private static List<Point> empty_positions = new ArrayList<Point>();
+    private static int[][] board;
+    private static String player;
+
+    public Moves(int[][] input_board, String input_player) {
+        board = input_board;
+        player = input_player;
+
+        empty_positions.clear();
+        knock_out_positions.clear();
+        possible_diagonal_positions.clear();
+        possible_knock_out_positions.clear();
+        possible_single_jump_positions.clear();
+    }
 
     public static boolean check_move(int current_row, int current_col, int future_row, int future_col) {
         /*
         check if the future move is a valid move. If so is it knocking out some pieces.
          */
 
-        List<Point> empty_positions = new ArrayList<Point>();
         Point future_point = new Point(future_row, future_col);
-        knock_out_positions.clear();
 
         // check for simple move
 
-        // get possible positions of adjacent diagonals where simple move can be possible
-        possible_diagonal_positions = Moves.get_possible_simple_move_positions(current_row, current_col);
+        // update possible positions of adjacent diagonals where simple move can be possible
+        update_possible_simple_move_positions(current_row, current_col);
 
         // for each possible diagonal positions check if the position is empty
         for (int i = 0; i < possible_diagonal_positions.size(); i++){
@@ -41,8 +55,8 @@ public class Moves {
         }
         // if one or more of the possible next diagonal position not empty then check for single jump move
         else {
-            // check for single jump move
-            List<Point> possible_single_jump_positions = Moves.get_possible_single_jump_moves(current_row, current_col, empty_positions, future_point);
+            // update for single jump move
+            update_possible_single_jump_moves(current_row, current_col, future_point);
             // if possible single jump moves is empty then go for simple move
             if (possible_single_jump_positions.isEmpty()) {
                 if (empty_positions.contains(future_point)) {
@@ -60,7 +74,7 @@ public class Moves {
         return false;
     }
 
-    public static List get_possible_simple_move_positions(int current_row, int current_col) {
+    private static void update_possible_simple_move_positions(int current_row, int current_col) {
         /*
         return all the possible diagonal move positions irrespective of whether its empty or not.
          */
@@ -68,9 +82,8 @@ public class Moves {
         int x;
         int y;
         Point position;
-        List<Point> possible_diagonal_positions = new ArrayList<Point>();
 
-        int board_value = Board.board[current_row][current_col];
+        int board_value = board[current_row][current_col];
 
         if (board_value % 2 == 1) {
             x = current_row - 1;
@@ -123,17 +136,15 @@ public class Moves {
             }
         }
 
-        return possible_diagonal_positions;
     }
 
-    public static List get_possible_single_jump_moves(int current_row, int current_col, List empty_positions, Point future_point) {
+    private static void update_possible_single_jump_moves(int current_row, int current_col, Point future_point) {
         /*
         return: possible single jump moves
          */
 
-        List<Point> possible_single_jump_positions = new ArrayList<Point>();
-        List<Point> possible_knock_out_positions = new ArrayList<Point>();
-        String player = Game.player;
+        //List<Point> possible_single_jump_positions = new ArrayList<Point>();
+        //List<Point> possible_knock_out_positions = new ArrayList<Point>();
 
         possible_knock_out_positions.addAll(possible_diagonal_positions);
         possible_knock_out_positions.removeAll(empty_positions);
@@ -142,7 +153,7 @@ public class Moves {
             int possible_knock_out_row = (int) possible_knock_out_positions.get(i).getX();
             int possible_knock_out_col = (int) possible_knock_out_positions.get(i).getY();
 
-            int knock_out_board_value = Board.board[possible_knock_out_row][possible_knock_out_col];
+            int knock_out_board_value = board[possible_knock_out_row][possible_knock_out_col];
             String[] mapped_knock_out_board_value = Mapper.map_board_values(knock_out_board_value);
             if (player.equals(mapped_knock_out_board_value[0])) {
                 // piece belong to the same player. Continue checking for next possible knock out position.
@@ -154,7 +165,7 @@ public class Moves {
             int test_row = possible_knock_out_row + delta_row;
             int test_col = possible_knock_out_col + delta_col;
             if ((0 <= test_row && test_row <= 7) && (0 <= test_col && test_col <= 7)) {
-                int test_board_value = Board.board[test_row][test_col];
+                int test_board_value = board[test_row][test_col];
                 if (test_board_value == 0) {
                     possible_single_jump_positions.add(new Point(test_row, test_col));
                     if (possible_single_jump_positions.contains(future_point)) {
@@ -164,15 +175,14 @@ public class Moves {
                 }
             }
         }
-
-        return possible_single_jump_positions;
     }
 
-    public static boolean check_if_position_empty(int row, int col) {
+    private static boolean check_if_position_empty(int row, int col) {
         /*
         checks if input positions are empty on board
          */
-        int board_value = Board.board[row][col];
+
+        int board_value = board[row][col];
         if (board_value == 0) return true;
 
         return false;

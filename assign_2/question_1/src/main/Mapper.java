@@ -42,19 +42,6 @@ public class Mapper {
         return mapped_column;
     }
 
-    public static String reverse_map_columns(int column) {
-        String reverse_mapped_column = "default";
-        if (column == 0) reverse_mapped_column = "a";
-        else if (column == 1) reverse_mapped_column = "b";
-        else if (column == 2) reverse_mapped_column = "c";
-        else if (column == 3) reverse_mapped_column = "d";
-        else if (column == 4) reverse_mapped_column = "e";
-        else if (column == 5) reverse_mapped_column = "f";
-        else if (column == 6) reverse_mapped_column = "g";
-        else if (column == 7) reverse_mapped_column = "h";
-        return reverse_mapped_column;
-    }
-
     public static String[] map_board_values(int board_value){
         String[] map_board_values = new String[3];
         if (board_value == -1) {

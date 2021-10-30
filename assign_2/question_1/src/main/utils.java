@@ -5,10 +5,11 @@ public class utils {
     Class responsibility: To provide some utility functions to support the code.
      */
 
-    static Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
     public static String[] get_current_future_positions(String input) {
         // return {"current col", "current row", "future col", "future row"}
+
         String[] col_rows = new String[4];
         for (int i = 0; i < input.length(); i++) {
             String character = Character.toString(input.charAt(i));
@@ -26,6 +27,8 @@ public class utils {
     }
 
     public static String input_move(String player) {
+        // inputs move using scanner
+
         System.out.println("Input your move player " + player + ":");
         String input = scanner.nextLine();
         return input;

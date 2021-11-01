@@ -28,6 +28,7 @@ public class Game {
         new Board();
 
         int i = 1;
+
         while (true) {
             game_state = "Ongoing";
 

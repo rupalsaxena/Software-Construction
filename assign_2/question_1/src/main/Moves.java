@@ -5,14 +5,16 @@ public class Moves {
     /*
     Class responsibility is to check and priortise allowed moves in a particular chance of player.
      */
-
-    private static List<Point> possible_diagonal_positions = new ArrayList<Point>();
-    public static List<Point> knock_out_positions = new ArrayList<Point>();
-    private static List<Point> possible_single_jump_positions = new ArrayList<Point>();
-    private static List<Point> possible_knock_out_positions = new ArrayList<Point>();
-    private static List<Point> empty_positions = new ArrayList<Point>();
     private static int[][] board;
     private static String player;
+
+    private static List<Point> possible_diagonal_positions = new ArrayList<Point>();
+    private static List<Point> knock_out_positions = new ArrayList<Point>();
+
+    private static List<Point> possible_single_jump_positions = new ArrayList<Point>();
+    private static List<Point> possible_knock_out_positions = new ArrayList<Point>();
+
+    private static List<Point> empty_positions = new ArrayList<Point>();
 
     public Moves(int[][] input_board, String input_player) {
         board = input_board;
@@ -185,4 +187,7 @@ public class Moves {
         return false;
     }
 
+    public static List<Point> getKnockOutPosition() {
+        return knock_out_positions;
+    }
 }

@@ -7,7 +7,7 @@ public class Moves {
      */
 
     private static List<Point> possible_diagonal_positions = new ArrayList<Point>();
-    public static List<Point> knock_out_positions = new ArrayList<Point>();
+    private static List<Point> knock_out_positions = new ArrayList<Point>();
     private static List<Point> possible_single_jump_positions = new ArrayList<Point>();
     private static List<Point> possible_knock_out_positions = new ArrayList<Point>();
     private static List<Point> empty_positions = new ArrayList<Point>();
@@ -183,6 +183,10 @@ public class Moves {
         if (board_value == 0) return true;
 
         return false;
+    }
+
+    public static List<Point> getKnockOutPosition() {
+        return knock_out_positions;
     }
 
 }

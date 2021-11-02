@@ -66,6 +66,14 @@ public class Moves {
                     return false;
                 }
             }
+            //check if from the points in possible_single_jump_positions diagonals are empty
+            //if empty, check if future_point is in possible_jump_moves
+            //else check if possible_single_jump_moves from not empty diagonals is possible, if true add this point to multiple_jump_move
+            //repeat until no more rows and columns possible
+            //check if future point is in multiple_jump_positions
+            //if not check if future point in single jump move
+            
+
             // else check if future point is in possible simple jump moves
             else if (possible_single_jump_positions.contains(future_point)) {
                 return true;

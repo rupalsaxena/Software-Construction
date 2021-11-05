@@ -1,15 +1,14 @@
 import java.awt.*;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class Board {
+public class Board implements Observer{
     /*
-    Class responsibility: To initialize, display, update the board, provide piece count to change game state to game over, check input validity.
-    This class has a class variable board.
-    This class variable is a 2d int array which stores encoded values of pieces and checkers.
+     * Provides 2D-Array board of Pieces
      */
 
-    private static int[][] board = new int[8][8];
+    private static Piece[][] board = new Piece[8][8];
 
     public Board() {
         // initialize and display the initial board
@@ -18,62 +17,44 @@ public class Board {
         display_board();
     }
 
-    private static void init_board() {
+    private void init_board() {
         /*
-        This method is initializing the board. Board is a 2d array storing encoded values of pieces and checkers.
-        Following is the encoding:
-        white checks = -1
-        black empty = 0
-        red pawn = 2
-        white pawn = 4
-        red king = 1
-        white king = 3
+        This method is initializing the board. Board is a 2d array storing Piece Objects
         */
 
         //For the Red player
-        for (int i = 1; i < 4; i++) {
-            for (int j = 1; j < 9; j++) {
-                if ((i % 2 == 1) && (j % 2 == 0)) {
-                    board[i - 1][j - 1] = 2;
-                } else if ((i % 2 == 0) && (j % 2 == 1)) {
-                    board[i - 1][j - 1] = 2;
-                } else if (((i % 2 == 0) && (j % 2 == 0)) || ((i % 2 == 1) && (j % 2 == 1))) {
-                    board[i - 1][j - 1] = -1;
+        for (int y = 0; y <=2; y++) {
+            for (int x = 0; x <= 7; x++) {
+                if (y%2 == 1 && x%2 == 0){
+                    board[y][x] = new Piece(Color.Red, Rank.Pawn, x, y, this);
+                } else if (y%2 == 0 && x%2 == 1) {
+                    board[y][x] = new Piece(Color.Red, Rank.Pawn, x, y, this);
+                } else {
+                    board[y][x] = new Piece(Color.Empty, Rank.Empty, x, y, this);
                 }
             }
         }
         //For the empty rows in between the players
-        for (int i = 4; i < 6; i++) {
-            for (int j = 1; j < 9; j++) {
-                if ((i == 4) && (j % 2 == 1)) {
-                    board[i - 1][j - 1] = 0;
-                }
-                else if((i == 4) && (j % 2 == 0)) {
-                    board[i-1][j-1] = -1;
-                }
-                else if((i == 5) && (j % 2 == 1)) {
-                    board[i-1][j-1] = -1;
-                }
-                else if ((i == 5) && (j % 2 == 0)) {
-                    board[i - 1][j - 1] = -0;
-                }
+        for (int y = 3; y <5; y++) {
+            for (int x = 0; x <= 7; x++) {
+                board[y][x] = new Piece(Color.Empty, Rank.Empty, x, y, this);
             }
         }
         //For the White player
-        for (int i = 6; i < 9; i++) {
-            for (int j = 1; j < 9; j++) {
-                if ((i % 2 == 0) && (j % 2 == 1)) {
-                    board[i - 1][j - 1] = 4;
-                } else if ((i % 2 == 1) && (j % 2 == 0)) {
-                    board[i - 1][j - 1] = 4;
-                } else if (((i % 2 == 0) && (j % 2 == 0)) || ((i % 2 == 1) && (j % 2 == 1))) {
-                    board[i - 1][j - 1] = -1;
+        for (int y = 5; y <=7; y++) {
+            for (int x = 0; x <= 7; x++) {
+                if (y%2 == 1 && x%2 == 0){
+                    board[y][x] = new Piece(Color.White, Rank.Pawn, x, y, this);
+                } else if (y%2 == 0 && x%2 == 1){
+                    board[y][x] = new Piece(Color.White, Rank.Pawn, x, y, this);
+                } else {
+                    board[y][x] = new Piece(Color.Empty, Rank.Empty, x, y, this);
                 }
             }
         }
     }
 
-    private static void display_board() {
+    private void display_board() {
         /*
         This method takes 2d array board value convert it to visually understandable form and display it.
          */
@@ -84,9 +65,8 @@ public class Board {
             int mapped_row = utils.reverse_map_rows(i);
             System.out.print(mapped_row +" |");
             for (int j = 0; j < 8; j ++) {
-                int board_value = board[i][j];
-                String[] mapped_board_value = utils.map_board_values(board_value);
-                System.out.print(" [" + mapped_board_value[2] + "]" );
+                String value = board[i][j].encoded_value();
+                System.out.print(" [" + value + "]" );
             }
             System.out.print(" | " + mapped_row +"\n");
         }
@@ -94,82 +74,81 @@ public class Board {
         System.out.print("      a     b     c     d     e     f     g     h\n");
     }
 
-    public static void update_board(String input, String player) {
+    public void make_move(String input, Color color) {
         /*
-        This method is updating the board in case of knocks out and when pieces are moving.
+         * Takes validated input from player and moves pieces
          */
-
         List<Point> knock_out_positions = Moves.getKnockOutPosition();
         String[] col_rows = utils.get_current_future_positions(input);
 
-        int current_mapped_row = utils.map_rows(Integer.valueOf(col_rows[1]));
-        int future_mapped_row = utils.map_rows(Integer.valueOf(col_rows[3]));
+        //Parse input, save start and future position in points and corresponding Pieces
+        Point start_point = new Point(utils.map_columns(col_rows[0]), utils.map_rows(Integer.parseInt(col_rows[1])));
+        Point future_point = new Point(utils.map_columns(col_rows[2]), utils.map_rows(Integer.parseInt(col_rows[3])));
+        Piece start_pos = board[start_point.y][start_point.x];
+        Piece future_pos = board[future_point.y][future_point.x];
 
-        int current_mapped_col = utils.map_columns(col_rows[0]);
-        int future_mapped_col = utils.map_columns(col_rows[2]);
+        // move piece to future_point and replace start_point with empty piece
+        start_pos.move_piece(future_point);
 
-        int current_board_value = board[current_mapped_row][current_mapped_col];
-        int future_board_value = current_board_value;
-
-        if (player.equals("Red") && future_mapped_row == 7 && current_board_value%2 == 0) {
-            future_board_value = 1;
-        }
-        if (player.equals("White") && future_mapped_row == 0 && current_board_value%2 == 0) {
-            future_board_value = 3;
-        }
-
-        board[current_mapped_row][current_mapped_col] = 0;
-        board[future_mapped_row][future_mapped_col] = future_board_value;
-
+        //Not functional rn, wait for reimplementation of Moves
         for (int i = 0; i < knock_out_positions.size(); i++) {
             int row = (int) knock_out_positions.get(i).getX();
             int col = (int) knock_out_positions.get(i).getY();
-            board[row][col] = 0;
+            board[row][col] = new Piece(Color.Empty, Rank.Empty, row, col, this);
         }
+
         display_board();
     }
 
-    public static int count_pieces(String player) {
+    public void update(String event_type, Point old_pos, Point new_pos, Piece updated_piece){
         /*
-        count and return pieces of given player
+         * Updates Board to reflect changes in a pieces position
+         */
+        board[new_pos.y][new_pos.x] = null;
+        board[new_pos.y][new_pos.x] = board[old_pos.y][old_pos.x];
+        board[old_pos.y][old_pos.x] = new Piece(Color.Empty, Rank.Empty, old_pos.x, old_pos.y,this);
+    }
+    public int count_pieces(Color color) {
+        /*
+        count and return pieces of given color
         */
-
-        List<Integer> player_pieces = new ArrayList<Integer>();
-
+        int count = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                int board_value = board[i][j];
-
-                if (player.equals("Red") && (board_value == 1 || board_value == 2)) {
-                    player_pieces.add(board_value);
+                Piece piece = board[i][j];
+                if(piece.get_color() == color){
+                   count++;
                 }
-                if (player.equals("White") && (board_value == 3 || board_value == 4)) {
-                    player_pieces.add(board_value);
-                }
-
             }
         }
-        int counter = player_pieces.size();
-
-        return counter;
+        return count;
     }
 
-    public static boolean check_input_validity(String input, String player) {
+    public boolean check_input_validity(String input, Color color) {
         /*
         input: input received from the player and player
         return: if input is valid or not by checking input format and moves
         */
-
-        Boolean format_validity = Validation.is_valid_input_format(input);
-        if (!format_validity) {
-            return format_validity;
+        // Check if Input is valid format, e.g. [a3]X[b6]
+        if (input.length() != 9) {
+            return false;
         }
+        Pattern pattern = Pattern.compile("\\[[a-h][1-8]\\]X\\[[a-h][1-8]\\]");
+        Matcher matcher = pattern.matcher(input);
+        boolean input_validity = matcher.find();
+        if(!input_validity){return false;}
 
-        String[] col_rows = utils.get_current_future_positions(input);
-        Boolean move_validity = Validation.is_valid_move(col_rows, player, board);
-        if (!move_validity) {
-            return move_validity;
-        }
-        return true;
+        // Check if move from input is a valid move
+        String[] positions = utils.get_current_future_positions(input);
+        int current_mapped_row = utils.map_rows(Integer.parseInt(positions[1]));
+        int future_mapped_row = utils.map_rows(Integer.parseInt(positions[3]));
+
+        int current_mapped_col = utils.map_columns(positions[0]);
+        int future_mapped_col = utils.map_columns(positions[2]);
+
+        Piece current_piece = board[current_mapped_row][current_mapped_col];
+        Piece future_piece = board[future_mapped_row][future_mapped_col];
+
+        return current_piece.is_valid_move(future_piece, positions, color);
     }
 }

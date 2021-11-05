@@ -9,10 +9,13 @@ public class Board implements Observer{
      */
 
     private static Piece[][] board = new Piece[8][8];
+    private int CountRedPieces;
+    private int CountWhitePieces;
 
     public Board() {
         // initialize and display the initial board
-
+        CountRedPieces = 0;
+        CountWhitePieces = 0;
         init_board();
         display_board();
     }
@@ -27,8 +30,10 @@ public class Board implements Observer{
             for (int x = 0; x <= 7; x++) {
                 if (y%2 == 1 && x%2 == 0){
                     board[y][x] = new Piece(Color.Red, Rank.Pawn, x, y, this);
+                    CountRedPieces++;
                 } else if (y%2 == 0 && x%2 == 1) {
                     board[y][x] = new Piece(Color.Red, Rank.Pawn, x, y, this);
+                    CountRedPieces++;
                 } else {
                     board[y][x] = new Piece(Color.Empty, Rank.Empty, x, y, this);
                 }
@@ -45,8 +50,10 @@ public class Board implements Observer{
             for (int x = 0; x <= 7; x++) {
                 if (y%2 == 1 && x%2 == 0){
                     board[y][x] = new Piece(Color.White, Rank.Pawn, x, y, this);
+                    CountWhitePieces++;
                 } else if (y%2 == 0 && x%2 == 1){
                     board[y][x] = new Piece(Color.White, Rank.Pawn, x, y, this);
+                    CountWhitePieces++;
                 } else {
                     board[y][x] = new Piece(Color.Empty, Rank.Empty, x, y, this);
                 }
@@ -84,11 +91,12 @@ public class Board implements Observer{
         //Parse input, save start and future position in points and corresponding Pieces
         Point start_point = new Point(utils.map_columns(col_rows[0]), utils.map_rows(Integer.parseInt(col_rows[1])));
         Point future_point = new Point(utils.map_columns(col_rows[2]), utils.map_rows(Integer.parseInt(col_rows[3])));
-        Piece start_pos = board[start_point.y][start_point.x];
-        Piece future_pos = board[future_point.y][future_point.x];
+        Piece start_piece = board[start_point.y][start_point.x];
+        Piece future_piece = board[future_point.y][future_point.x];
 
-        // move piece to future_point and replace start_point with empty piece
-        start_pos.move_piece(future_point);
+        // Remove Piece on future_point, move Piece from start_point to future_point
+        future_piece.eliminate_piece();
+        start_piece.move_piece(future_point);
 
         //Not functional rn, wait for reimplementation of Moves
         for (int i = 0; i < knock_out_positions.size(); i++) {
@@ -100,28 +108,32 @@ public class Board implements Observer{
         display_board();
     }
 
-    public void update(String event_type, Point old_pos, Point new_pos, Piece updated_piece){
+    public void update(String event_type, Point old_pos, Point new_pos, Color new_pos_color){
         /*
          * Updates Board to reflect changes in a pieces position
          */
-        board[new_pos.y][new_pos.x] = null;
-        board[new_pos.y][new_pos.x] = board[old_pos.y][old_pos.x];
-        board[old_pos.y][old_pos.x] = new Piece(Color.Empty, Rank.Empty, old_pos.x, old_pos.y,this);
+        if(event_type.equals("Removed")){
+            if(new_pos_color == Color.White){
+                CountWhitePieces--;
+            } else if(new_pos_color == Color.Red) {
+                CountRedPieces--;
+            }
+        }
+        else if(event_type.equals("Moved")) {
+            board[new_pos.y][new_pos.x] = null;
+            board[new_pos.y][new_pos.x] = board[old_pos.y][old_pos.x];
+            board[old_pos.y][old_pos.x] = new Piece(Color.Empty, Rank.Empty, old_pos.x, old_pos.y, this);
+        }
     }
     public int count_pieces(Color color) {
         /*
         count and return pieces of given color
         */
-        int count = 0;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Piece piece = board[i][j];
-                if(piece.get_color() == color){
-                   count++;
-                }
-            }
+        if (color == Color.White){
+            return CountWhitePieces;
+        } else {
+            return CountRedPieces;
         }
-        return count;
     }
 
     public boolean check_input_validity(String input, Color color) {

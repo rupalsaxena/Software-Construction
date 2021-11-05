@@ -19,26 +19,24 @@ public class Piece implements Subject{
         registerObserver(Board);
     }
 
-    //Need to remove, only used in Board.count_pieces()
-    public Color get_color(){
-        return this.pCol;
-    }
     public void move_piece(Point future_point){
         /*
          * Assumes move to future_pos is valid!
          * Updates pos of piece, promotes if necessary and notifies Observers
          */
-        Point old_pos = new Point(pos);
-        pos.setLocation(future_point);
+        Point old_pos = new Point(this.pos);
+        this.pos.setLocation(future_point);
         promote_if_necessary();
         notifyObservers("Moved", old_pos, this);
     }
 
     public void eliminate_piece(){
-        pCol = Color.Empty;
-        pRank = Rank.Empty;
-        Point dummy = new Point(0,0);
-        notifyObservers("Removed", pos, this);
+        /*
+         * Makes Piece empty and updates Observers (Board)
+         */
+        notifyObservers("Removed", this.pos, this);
+        this.pCol = Color.Empty;
+        this.pRank = Rank.Empty;
     }
 
     public String encoded_value() {
@@ -63,16 +61,16 @@ public class Piece implements Subject{
 
     private void promote_if_necessary(){
         // Checks if piece needs to be promoted and, if so, promotes piece
-        if (pCol == Color.Red && pos.y == 7) {
-            pRank = Rank.King;
+        if (this.pCol == Color.Red && this.pos.y == 7) {
+            this.pRank = Rank.King;
         }
-        if (pCol == Color.White && pos.y == 0) {
-            pRank = Rank.King;
+        if (this.pCol == Color.White && this.pos.y == 0) {
+            this.pRank = Rank.King;
         }
     }
 
     public boolean is_empty(){
-        return pCol == Color.Empty;
+        return this.pCol == Color.Empty;
     }
 
     public boolean is_valid_move(Piece future, String[] positions, Color color){
@@ -130,7 +128,7 @@ public class Piece implements Subject{
     public void notifyObservers(String event_type, Point old_pos, Piece updated_piece){
         //Make Observers (Board) update position of piece on board
         for (Observer observer : observers) {
-            observer.update(event_type, old_pos,updated_piece.pos, updated_piece);
+            observer.update(event_type, old_pos, updated_piece.pos, updated_piece.pCol);
         }
     }
 }

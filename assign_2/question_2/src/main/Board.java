@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.List;
+
 import java.util.ArrayList;
 
 public class Board {
@@ -171,5 +172,32 @@ public class Board {
             return move_validity;
         }
         return true;
+    }
+
+    public static String getAllPossibleMoves (String input, String player){
+        List<Point> allMoves = new ArrayList<Point>();
+        List<String> allMovesString = new ArrayList<String>();
+        String[] col_rows = utils.get_current_future_positions(input);
+        int current_mapped_row = utils.map_rows(Integer.valueOf(col_rows[1]));
+        int current_mapped_col = utils.map_columns(col_rows[0]);
+        Boolean is_valid_position = Validation.is_valid_position(current_mapped_row, current_mapped_col, player, board);
+        if(is_valid_position){
+            allMoves = Moves.getAllPossibleMoves(current_mapped_row, current_mapped_col);
+            
+        }
+        for (int i= 0; i<allMoves.size(); i++){
+            int row = (int) allMoves.get(i).getX();
+            int column = (int) allMoves.get(i).getY();
+            int board_row = utils.reverse_map_rows(row);
+            String board_column = utils.reverse_map_columns(column);
+            String board_value = board_column + board_row;
+            allMovesString.add(board_value);
+            
+
+        }
+        return allMovesString.toString();        
+        
+
+
     }
 }

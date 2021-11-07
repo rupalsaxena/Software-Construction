@@ -42,9 +42,18 @@ public class Game {
                     input_move = new_move;
                     break;
                 }
-                else System.out.println("Invalid move!");
+                else{
+                    Boolean hintValidity = Validation.is_valid_input_format_hint(new_move);
+                    if(hintValidity){
+                        String possibleMoves = Board.getAllPossibleMoves(new_move, player);
+                        if(possibleMoves != "[]"){
+                            System.out.println("Possible Moves: " + possibleMoves);
+                        }
+                    }
+                    else System.out.println("Invalid move!");
+                } 
             }
-
+            
             Board.update_board(input_move, player);
             game_state = update_game_state();
 

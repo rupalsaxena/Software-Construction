@@ -13,6 +13,13 @@ public class utils {
         // return {"current col", "current row", "future col", "future row"}
 
         String[] col_rows = new String[4];
+        if(input.length() == 7){
+            String current_col = Character.toString(input.charAt(5));
+            String current_row = Character.toString(input.charAt(6));
+            col_rows[0] = current_col;
+            col_rows[1] = current_row;
+            return col_rows;
+        }
         for (int i = 0; i < input.length(); i++) {
             String character = Character.toString(input.charAt(i));
             if (i == 1 || i == 2) {
@@ -73,6 +80,19 @@ public class utils {
         else if (column.equals("g")) mapped_column = 6;
         else if (column.equals("h")) mapped_column = 7;
         return mapped_column;
+    }
+
+    public static String reverse_map_columns(int column){
+        String reverse_mapped_column = "" ;
+        if(column == 0) reverse_mapped_column = "a";
+        else if (column == 1) reverse_mapped_column = "b";
+        else if (column == 2) reverse_mapped_column = "c";
+        else if (column == 3) reverse_mapped_column = "d";
+        else if (column == 4) reverse_mapped_column = "e";
+        else if (column == 5) reverse_mapped_column = "f";
+        else if (column == 6) reverse_mapped_column = "g";
+        else if (column == 7) reverse_mapped_column = "h";
+        return reverse_mapped_column;
     }
 
     public static String[] map_board_values(int board_value){

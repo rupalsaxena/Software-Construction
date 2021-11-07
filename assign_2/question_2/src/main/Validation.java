@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 public class Validation {
     /*
     Class responsibility is to validate the input. Input validity has two parts.
@@ -16,7 +17,6 @@ public class Validation {
 
         String[] possible_cols = {"a", "b", "c", "d", "e", "f", "g", "h"};
         String[] possible_rows = {"1", "2", "3", "4", "5", "6","7", "8"};
-
         if (input.length() != 9) {
             return false;
         }
@@ -35,6 +35,40 @@ public class Validation {
         return true;
     }
 
+    public static boolean is_valid_input_format_hint(String input){
+        String[] possible_cols = {"a", "b", "c", "d", "e", "f", "g", "h"};
+        String[] possible_rows = {"1", "2", "3", "4", "5", "6","7", "8"};
+        String hint = input.substring(0, 5);
+        if(input.length() == 7){
+            if(hint.equals("hint@") || hint.equals("Hint@")){
+                String column = Character.toString(input.charAt(5));
+                String row = Character.toString(input.charAt(6));
+                if(Arrays.asList(possible_cols).contains(column) && Arrays.asList(possible_rows).contains(row)){
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
+    public static boolean is_valid_position(int mapped_row, int mapped_column, String player, int[][] board){
+        new Moves(board, player);
+        int current_board_value = board[mapped_row][mapped_column];
+        String[] mapped_current_board_values = utils.map_board_values(current_board_value);
+
+        if (!mapped_current_board_values[1].equals("empty") && !mapped_current_board_values[0].equals(player)) {
+            System.out.print("This is not your piece! \n");
+            return false;
+            }
+        if (mapped_current_board_values[1].equals("empty")) {
+            System.out.print("There is no piece on your current move! \n");
+            return false;
+            }
+        return true;
+    }
+        
+
     public static boolean is_valid_move(String[] positions, String player, int[][] board) {
         /*
         input array of positions with current col, current row, future col, future row
@@ -45,7 +79,7 @@ public class Validation {
         */
 
         new Moves(board, player);
-
+        
         int current_mapped_row = utils.map_rows(Integer.valueOf(positions[1]));
         int future_mapped_row = utils.map_rows(Integer.valueOf(positions[3]));
 

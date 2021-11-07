@@ -24,7 +24,7 @@ public class Game {
         String input_move;
 
         Board GameBoard = new Board();
-        Color color = Color.Red;
+        Color player_color = Color.Red;
         String player = "Red";
 
         while (true) {
@@ -33,14 +33,23 @@ public class Game {
 
             while (true) {
                 String new_move = utils.input_move(player);
-                boolean validity = GameBoard.check_input_validity(new_move, color);
+                boolean validity = GameBoard.check_input_validity(new_move, player_color);
                 if (validity) {
                     input_move = new_move;
                     break;
-                } else System.out.println("Invalid move!");
+                } else{
+                    boolean hintValidity = utils.is_valid_input_format_hint(new_move);
+                    if(hintValidity){
+                        String possibleMoves = Board.getAllPossibleMoves(new_move, player_color);
+                        if(possibleMoves != "[]"){
+                            System.out.println("Possible Moves: " + possibleMoves);
+                        }
+                    }
+                    else System.out.println("Invalid move!");
+                }
             }
 
-            GameBoard.make_move(input_move, color);
+            GameBoard.make_move(input_move, player_color);
             game_state = update_game_state(GameBoard);
 
             if (game_state.equals("GameOver")) {
@@ -49,11 +58,11 @@ public class Game {
             }
 
             //Switch player turns
-            if (color == Color.Red) {
-                color = Color.White;
+            if (player_color == Color.Red) {
+                player_color = Color.White;
                 player = "White";
             } else {
-                color = Color.Red;
+                player_color = Color.Red;
                 player = "Red";
             }
         }

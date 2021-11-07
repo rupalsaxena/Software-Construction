@@ -2,7 +2,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Board {
+public class OldBoard {
     /*
     Class responsibility: To initialize, display, update the board, provide piece count to change game state to game over, check input validity.
     This class has a class variable board.
@@ -11,7 +11,7 @@ public class Board {
 
     private static int[][] board = new int[8][8];
 
-    public Board() {
+    public OldBoard() {
         // initialize and display the initial board
 
         init_board();

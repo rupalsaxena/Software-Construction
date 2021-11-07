@@ -7,7 +7,7 @@ enum Rank{Pawn, King, Empty}
 
 
 public class Piece implements Subject{
-    private Color pCol;
+    public Color pCol;
     private Rank pRank;
     private Point pos;
     private List<Observer> observers = new ArrayList<Observer>();
@@ -73,7 +73,11 @@ public class Piece implements Subject{
         return this.pCol == Color.Empty;
     }
 
-    public boolean is_valid_move(Piece future, String[] positions, Color color){
+    public boolean piece_equals(Color other_color, Rank other_rank){
+        // Returns true if both have same rank and color
+        return this.pRank == other_rank && this.pCol == other_color;
+    }
+    public boolean is_valid_move(Piece future, String[] positions, Color color, Piece[][] board){
         int current_row = utils.map_rows(Integer.valueOf(positions[1]));
         int future_row = utils.map_rows(Integer.valueOf(positions[3]));
 
@@ -112,9 +116,9 @@ public class Piece implements Subject{
             System.out.print("This is not your piece! ");
             return false;
         }
-
-        return true;
-        // return Moves.check_move(current_row, current_col, future_row, future_col);
+        Moves moves = new Moves(board, color);
+        // return true;
+        return moves.check_move(current_row, current_col, future_row, future_col);
     }
 
     public void registerObserver(Observer observer){
@@ -122,7 +126,7 @@ public class Piece implements Subject{
         observers.add(observer);
     }
     public void removeObserver(Observer observer){
-        //Not really needed
+        // Needed for dummy Pieces which are used for comparison
         observers.remove(observer);
     }
     public void notifyObservers(String event_type, Point old_pos, Piece updated_piece){

@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -141,10 +142,9 @@ public class Board implements Observer{
         input: input received from the player and player
         return: if input is valid or not by checking input format and moves
         */
+
         // Check if Input is valid format, e.g. [a3]X[b6]
-        if (input.length() != 9) {
-            return false;
-        }
+        if (input.length() != 9) {return false;}
         Pattern pattern = Pattern.compile("\\[[a-h][1-8]\\]X\\[[a-h][1-8]\\]");
         Matcher matcher = pattern.matcher(input);
         boolean input_validity = matcher.find();
@@ -161,6 +161,33 @@ public class Board implements Observer{
         Piece current_piece = board[current_mapped_row][current_mapped_col];
         Piece future_piece = board[future_mapped_row][future_mapped_col];
 
-        return current_piece.is_valid_move(future_piece, positions, color);
+        return current_piece.is_valid_move(future_piece, positions, color, board);
+    }
+
+    public static String getAllPossibleMoves (String input, Color player_color){
+        List<Point> allMoves = new ArrayList<Point>();
+        List<String> allMovesString = new ArrayList<String>();
+        String[] col_rows = utils.get_current_future_positions(input);
+        int current_mapped_row = utils.map_rows(Integer.valueOf(col_rows[1]));
+        int current_mapped_col = utils.map_columns(col_rows[0]);
+
+        /* Not needed, already done in Piece.is_valid_move(). Check with Elena
+        Boolean is_valid_position = Validation.is_valid_position(current_mapped_row, current_mapped_col, player, board);
+
+        if(is_valid_position){
+            allMoves = Moves.getAllPossibleMoves(current_mapped_row, current_mapped_col);
+        }
+        */
+        Moves moves = new Moves(board, player_color);
+        allMoves = moves.getAllPossibleMoves(current_mapped_row, current_mapped_col);
+        for (int i= 0; i<allMoves.size(); i++){
+            int row = (int) allMoves.get(i).getX();
+            int column = (int) allMoves.get(i).getY();
+            int board_row = utils.reverse_map_rows(row);
+            String board_column = utils.reverse_map_columns(column);
+            String board_value = board_column + board_row;
+            allMovesString.add(board_value);
+        }
+        return allMovesString.toString();
     }
 }

@@ -9,7 +9,7 @@ enum Rank{Pawn, King, Empty}
 public class Piece implements Subject{
     public Color pCol;
     private Rank pRank;
-    private Point pos;
+    public Point pos;
     private List<Observer> observers = new ArrayList<Observer>();
 
     public Piece(Color col, Rank rank, int x, int y, Observer Board){

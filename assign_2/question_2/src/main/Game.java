@@ -42,16 +42,14 @@ public class Game {
                     if(hintValidity){
                         String new_move_reformatted = "[" + new_move.substring(5, 7) + "]X[a1]";
                         String possibleMoves = Board.getAllPossibleMoves(new_move_reformatted, player_color);
-                        if(possibleMoves != "[]"){
-                            System.out.println("Possible Moves: " + possibleMoves);
-                        }
+                        System.out.println("Possible Moves: " + possibleMoves);
                     }
                     else System.out.println("Invalid move!");
                 }
             }
 
             GameBoard.make_move(input_move, player_color);
-            game_state = update_game_state(GameBoard);
+            game_state = update_game_state(GameBoard, player_color);
 
             if (game_state.equals("GameOver")) {
                 System.out.print("Game is Over! " + player + " is winner!");
@@ -69,16 +67,22 @@ public class Game {
         }
     }
 
-    private static String update_game_state(Board GameBoard) {
+    private static String update_game_state(Board GameBoard, Color player_color) {
         /*
         updates the class variable game_state. Checks game over state and changes game_state to GameOver.
          */
 
         int white_counter = GameBoard.count_pieces(Color.White);
         int red_counter = GameBoard.count_pieces(Color.Red);
-
+        
         if (white_counter == 0 || red_counter == 0) {
             game_state = "GameOver";
+        }
+        else{
+            if(!Board.check_all_possible_moves(player_color)){
+                game_state = "GameOver";
+            };
+            
         }
         return game_state;
     }

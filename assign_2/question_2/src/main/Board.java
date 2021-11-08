@@ -190,4 +190,30 @@ public class Board implements Observer{
         }
         return allMovesString.toString();
     }
+
+    public static boolean check_all_possible_moves(Color player_color){
+        Moves moves = new Moves(board, player_color);
+
+        for(int i=0; i<8; i++){
+            for(int j=0; j<8; j++){
+                Piece boardPiece = board[i][j];
+                if(boardPiece.pCol.name() == player_color.name()){
+                    Point boardValue = boardPiece.pos;
+                    int row = (int) boardValue.getX();
+                    int column = (int) boardValue.getY();
+                    List<Point> possibleMove = moves.getAllPossibleMoves(row, column);
+                    if(possibleMove.size() != 0){
+                        return true;
+                    }
+                    
+                };
+
+            }
+        }
+        
+    
+        
+        return false;
+
+    }
 }

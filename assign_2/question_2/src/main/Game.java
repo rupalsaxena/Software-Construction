@@ -40,7 +40,8 @@ public class Game {
                 } else{
                     boolean hintValidity = utils.is_valid_input_format_hint(new_move);
                     if(hintValidity){
-                        String possibleMoves = Board.getAllPossibleMoves(new_move, player_color);
+                        String new_move_reformatted = "[" + new_move.substring(5, 7) + "]X[a1]";
+                        String possibleMoves = Board.getAllPossibleMoves(new_move_reformatted, player_color);
                         if(possibleMoves != "[]"){
                             System.out.println("Possible Moves: " + possibleMoves);
                         }

@@ -99,11 +99,11 @@ public class Board implements Observer{
         future_piece.eliminate_piece();
         start_piece.move_piece(future_point);
 
-        //Not functional rn, wait for reimplementation of Moves
+
         for (int i = 0; i < knock_out_positions.size(); i++) {
             int row = (int) knock_out_positions.get(i).getX();
             int col = (int) knock_out_positions.get(i).getY();
-            board[row][col] = new Piece(Color.Empty, Rank.Empty, row, col, this);
+            board[row][col].eliminate_piece();
         }
 
         display_board();

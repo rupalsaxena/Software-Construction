@@ -10,6 +10,7 @@ public class Moves {
     private static int row;
     private static int column;
     private static ArrayList<ArrayList<Point>> checkList = new ArrayList<ArrayList<Point>>();
+    private static ArrayList<ArrayList<Point>> modifiedMultipleJump = new ArrayList<ArrayList<Point>>();
     
     
     public Moves(int [][] input_board, String input_player){
@@ -18,6 +19,7 @@ public class Moves {
         knock_out_positions.clear();
         possible_knock_out_positions.clear();
         checkList.clear();
+        modifiedMultipleJump.clear();
 
     }
 
@@ -28,8 +30,11 @@ public class Moves {
         Point future_point = new Point(future_row, future_col);
         List<Point> listSimpleMoves = SimpleMove(current_row, current_col);
         ArrayList<ArrayList<Point>> listSingleJump = SingleJump(current_row, current_col);
+        ArrayList<ArrayList<Point>> listMultipleJump = MultipleJump(current_row, current_col);
+        ArrayList<ArrayList<Point>> modifiedListMultipleJump = ModifyMultipleJump(listMultipleJump);
+
         
-        if (listSingleJump.size() ==0){
+        if (listSingleJump.size() ==0 && modifiedListMultipleJump.size() == 0){
             if(listSimpleMoves.contains(future_point)){
                 return true;
             }
@@ -43,6 +48,13 @@ public class Moves {
                     return true;
                 }
 
+            }
+            for(int k=0; k < modifiedListMultipleJump.size(); k++){
+                ArrayList<Point> knockOutPosition = modifiedListMultipleJump.get(k);
+                if(knockOutPosition.contains(future_point)){
+                    UpdateKnockOut(knockOutPosition);
+                    return true;
+                }
             }
             return false;
         }
@@ -63,22 +75,21 @@ public class Moves {
             Point point = listPoint.get(listPoint.size()-1);
             singleJump.add(point);
         }
-        //ArrayList<ArrayList<Point>> multipleJumpExtended = MultipleJump(current_row, current_column);
-        // List<Point> multipleJump = new ArrayList<Point>();
-        // for(int i=0; i<multipleJumpExtended.size(); i++){
-        //     List<Point> listPoint = multipleJumpExtended.get(i);
-        //      Point point = listPoint.get(listPoint.size()-1);
-        //     multipleJump.add(point);
-        // }
-        //if(singleJump.size() == 0 && multipleJump.size() == 0){
-        //     allPossibleMoves.add(simpleMoves);
-        // }
-        if(singleJump.size() == 0){
+        ArrayList<ArrayList<Point>> multipleJumpExtended = MultipleJump(current_row, current_column);
+        ArrayList<ArrayList<Point>> multipleJumpModified = ModifyMultipleJump(multipleJumpExtended);
+        List<Point> multipleJump = new ArrayList<Point>();
+        for(int i=0; i<multipleJumpModified.size(); i++){
+            List<Point> listPoint = multipleJumpModified.get(i);
+            Point point = listPoint.get(listPoint.size()-1);
+            multipleJump.add(point);
+        }
+        if(singleJump.size() == 0 && multipleJump.size() == 0){
             allPossibleMoves.addAll(simpleMoves);
         }
+    
         
         allPossibleMoves.addAll(singleJump);
-        //allPossibleMoves.add(multipleJump);
+        allPossibleMoves.addAll(multipleJump);
         return allPossibleMoves;
 
 
@@ -88,10 +99,10 @@ public class Moves {
         List<Point> simpleMoves = new ArrayList<Point>();
         List<Point> diagonalPositions = DiagonalPositions(current_row, current_column);
         for (int i = 0; i < diagonalPositions.size(); i++){
-            int row = (int) diagonalPositions.get(i).getX();
-            int column = (int) diagonalPositions.get(i).getY();
-            if(board[row][column] == 0){
-                simpleMoves.add(new Point(row, column));
+            int irow = (int) diagonalPositions.get(i).getX();
+            int icolumn = (int) diagonalPositions.get(i).getY();
+            if(board[irow][icolumn] == 0){
+                simpleMoves.add(new Point(irow, icolumn));
             }
         }
 
@@ -103,40 +114,46 @@ public class Moves {
         List<Point> nonEmptyDiagonals = NotEmptyDiagonal(current_row, current_column);
         for(int i=0; i<nonEmptyDiagonals.size(); i++){
             ArrayList<Point> singleJumpWay = new ArrayList<Point>();
-            row = (int) nonEmptyDiagonals.get(i).getX();
-            column = (int) nonEmptyDiagonals.get(i).getY();
-            int knock_out_board_value = board[row][column];
+            int nonEmptyRow = (int) nonEmptyDiagonals.get(i).getX();
+            int nonEmptyColumn = (int) nonEmptyDiagonals.get(i).getY();
+            int knock_out_board_value = board[nonEmptyRow][nonEmptyColumn];
             String[] mapped_knock_out_board_value = utils.map_board_values(knock_out_board_value);
             if(player.equals(mapped_knock_out_board_value[0])){
                 continue;
             }
             else{
-                if(current_row > row && current_column < column){
-                    if(board[row-1][column+1] == 0){
-                        singleJumpWay.add(new Point(row, column));
-                        singleJumpWay.add(new Point(row-1, column+1));
-                        singleJump.add(singleJumpWay);
-                }
-            }
-                else if(current_row > row && current_column > column){
-                    if(board[row-1][column-1] == 0){
-                        singleJumpWay.add(new Point(row, column));
-                        singleJumpWay.add(new Point(row-1, column-1));
-                        singleJump.add(singleJumpWay);
+                if(nonEmptyRow > 0 && nonEmptyRow < 7 && nonEmptyColumn > 0 && nonEmptyColumn < 7){
+                    if(current_row > nonEmptyRow && current_column < nonEmptyColumn){
+                        if(board[nonEmptyRow-1][nonEmptyColumn+1] == 0){
+                            singleJumpWay.add(new Point(current_row, current_column));
+                            singleJumpWay.add(new Point(nonEmptyRow, nonEmptyColumn));
+                            singleJumpWay.add(new Point(nonEmptyRow-1, nonEmptyColumn+1));
+                            singleJump.add(singleJumpWay);
                     }
                 }
-                else if(current_row < row && current_column < column){
-                    if(board[row+1][column+1]== 0){
-                        singleJumpWay.add(new Point(row, column));
-                        singleJumpWay.add(new Point(row+1, column+1));
-                        singleJump.add(singleJumpWay);
+                    else if(current_row > nonEmptyRow && current_column > nonEmptyColumn){
+                        if(board[nonEmptyRow-1][nonEmptyColumn-1] == 0){
+                            singleJumpWay.add(new Point(current_row, current_column));
+                            singleJumpWay.add(new Point(nonEmptyRow, nonEmptyColumn));
+                            singleJumpWay.add(new Point(nonEmptyRow-1, nonEmptyColumn-1));
+                            singleJump.add(singleJumpWay);
+                        }
                     }
-                }
-                else if(current_row < row && current_column > column){
-                    if(board[row+1][column-1]== 0){
-                        singleJumpWay.add(new Point(row, column));
-                        singleJumpWay.add(new Point(row+1, column-1));
-                        singleJump.add(singleJumpWay);
+                    else if(current_row < nonEmptyRow && current_column < nonEmptyColumn){
+                        if(board[nonEmptyRow+1][nonEmptyColumn+1]== 0){
+                            singleJumpWay.add(new Point(current_row, current_column));
+                            singleJumpWay.add(new Point(nonEmptyRow, nonEmptyColumn));
+                            singleJumpWay.add(new Point(nonEmptyRow+1, nonEmptyColumn+1));
+                            singleJump.add(singleJumpWay);
+                        }
+                    }
+                    else if(current_row < nonEmptyRow && current_column > nonEmptyColumn){
+                        if(board[nonEmptyRow+1][nonEmptyColumn-1]== 0){
+                            singleJumpWay.add(new Point(current_row, current_column));
+                            singleJumpWay.add(new Point(nonEmptyRow, nonEmptyColumn));
+                            singleJumpWay.add(new Point(nonEmptyRow+1, nonEmptyColumn-1));
+                            singleJump.add(singleJumpWay);
+                        }
                     }
                 }
             }
@@ -145,8 +162,44 @@ public class Moves {
         return singleJump;
     }
 
+    private static ArrayList<ArrayList<Point>> MultipleJump (int current_row, int current_column){
+        ArrayList<ArrayList<Point>> singleJump = SingleJump(current_row, current_column);
+        for(int i=0; i<singleJump.size(); i++){
+            ArrayList<Point> possibleMultiple = singleJump.get(i);
+            checkList.add(possibleMultiple);
+            int possibleRow = (int) possibleMultiple.get(2).getX();
+            int possibleColumn = (int) possibleMultiple.get(2).getY();
+            MultipleJump (possibleRow, possibleColumn);
+
+        }
+        ArrayList<ArrayList<Point>> multipleJump = checkList;
+        return multipleJump;
+    }
+
+    private static ArrayList<ArrayList<Point>> ModifyMultipleJump(ArrayList<ArrayList<Point>> multipleJump){
+        if(multipleJump.size() == 0){
+            return modifiedMultipleJump;
+        }
+        ArrayList<Point> startJump = multipleJump.get(0);
+        for (int i = 1; i < multipleJump.size(); i++){
+            ArrayList<Point> nextJump = multipleJump.get(i);
+            if(startJump.get(startJump.size()-1).equals(nextJump.get(0))){
+                nextJump.remove(0);
+                ArrayList<Point> newJump = startJump;
+                newJump.addAll(nextJump);
+                ArrayList<ArrayList<Point>> newModifiedMultipleJump = multipleJump;
+                newModifiedMultipleJump.remove(0);
+                modifiedMultipleJump.add(newJump);
+                ModifyMultipleJump(newModifiedMultipleJump);
+                
+            }
+
+        }
+        return modifiedMultipleJump;
+    }
+
     private static void UpdateKnockOut (ArrayList<Point> moves){
-        for(int i=0; i < moves.size(); i+=2){
+        for(int i=1; i < moves.size(); i+=2){
             row = (int) moves.get(i).getX();
             column = (int) moves.get(i).getY();
             knock_out_positions.add(new Point(row, column));

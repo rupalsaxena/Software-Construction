@@ -19,7 +19,7 @@ public class Moves {
         modifiedMultipleJump.clear();
     }
 
-    public static boolean check_move(int current_row, int current_col, int future_row, int future_col){
+    public boolean check_move(int current_row, int current_col, int future_row, int future_col){
 
         row = current_row;
         column = current_col;
@@ -59,7 +59,7 @@ public class Moves {
     }
 
 
-    public static List<Point> getAllPossibleMoves(int current_row, int current_column){
+    public List<Point> getAllPossibleMoves(int current_row, int current_column){
         row = current_row;
         column = current_column;
         List<Point> allPossibleMoves = new ArrayList<Point>();

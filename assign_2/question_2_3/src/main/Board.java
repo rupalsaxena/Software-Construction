@@ -191,7 +191,7 @@ public class Board implements Observer{
         return allMovesString.toString();
     }
 
-    public static boolean check_all_possible_moves(Color player_color){
+    public boolean check_all_possible_moves(Color player_color){
         Moves moves = new Moves(board, player_color);
 
         for(int i=0; i<8; i++){

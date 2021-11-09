@@ -79,7 +79,7 @@ public class Game {
             game_state = "GameOver";
         }
         else{
-            if(!Board.check_all_possible_moves(player_color)){
+            if(!GameBoard.check_all_possible_moves(player_color)){
                 game_state = "GameOver";
             };
             

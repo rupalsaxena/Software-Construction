@@ -6,7 +6,6 @@ public class Moves {
     private static Piece[][] board;
     private static Color player_color;
     private static List<Point> knock_out_positions =new ArrayList<Point>();
-    private static List<Point> possible_knock_out_positions =new ArrayList<Point>();
     private static int row;
     private static int column;
     private static ArrayList<ArrayList<Point>> checkList = new ArrayList<ArrayList<Point>>();
@@ -16,7 +15,6 @@ public class Moves {
         board = input_board;
         player_color = input_player;
         knock_out_positions.clear();
-        possible_knock_out_positions.clear();
         checkList.clear();
         modifiedMultipleJump.clear();
     }

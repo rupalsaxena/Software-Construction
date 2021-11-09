@@ -1,3 +1,5 @@
+import java.awt.*;
+import java.util.*;
 import java.util.Scanner;
 
 public class utils {
@@ -26,6 +28,23 @@ public class utils {
             }
         }
         return col_rows;
+    }
+
+    public static boolean is_valid_input_format_hint(String input){
+        String[] possible_cols = {"a", "b", "c", "d", "e", "f", "g", "h"};
+        String[] possible_rows = {"1", "2", "3", "4", "5", "6","7", "8"};
+        String hint = input.substring(0, 5);
+        if(input.length() == 7){
+            if(hint.equals("hint@") || hint.equals("Hint@")){
+                String column = Character.toString(input.charAt(5));
+                String row = Character.toString(input.charAt(6));
+                if(Arrays.asList(possible_cols).contains(column) && Arrays.asList(possible_rows).contains(row)){
+                    return true;
+                }
+            }
+        }
+        return false;
+
     }
 
     public static String input_move(String player) {
@@ -73,6 +92,19 @@ public class utils {
         else if (column.equals("g")) mapped_column = 6;
         else if (column.equals("h")) mapped_column = 7;
         return mapped_column;
+    }
+
+    public static String reverse_map_columns(int column){
+        String reverse_mapped_column = "" ;
+        if(column == 0) reverse_mapped_column = "a";
+        else if (column == 1) reverse_mapped_column = "b";
+        else if (column == 2) reverse_mapped_column = "c";
+        else if (column == 3) reverse_mapped_column = "d";
+        else if (column == 4) reverse_mapped_column = "e";
+        else if (column == 5) reverse_mapped_column = "f";
+        else if (column == 6) reverse_mapped_column = "g";
+        else if (column == 7) reverse_mapped_column = "h";
+        return reverse_mapped_column;
     }
 
     public static String[] map_board_values(int board_value){

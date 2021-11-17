@@ -137,10 +137,11 @@ public class Board implements Observer{
         }
     }
 
-    public boolean check_input_validity(String input, Color color) {
+    public boolean check_validity(String input, Color color) {
         /*
         input: input received from the player and player
         return: if input is valid or not by checking input format and moves
+                Calls Piece.is_valid_move, which calls Moves.check_move
         */
 
         // Check if Input is valid format, e.g. [a3]X[b6]

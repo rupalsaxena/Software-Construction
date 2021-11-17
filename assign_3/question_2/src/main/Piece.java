@@ -86,13 +86,13 @@ public class Piece implements Subject{
 
         if (this.pRank == Rank.Pawn && this.pCol == Color.Red) { // red pawn
             if (future_row < current_row) {
-                System.out.print("Pawn cannot move in opposite direction! \n");
+                System.out.print("Red pawn cannot move in opposite direction! \n");
                 return false;
             }
         }
         if (this.pRank == Rank.Pawn && this.pCol == Color.White) { // white pawn
             if (future_row > current_row) {
-                System.out.print("Pawn cannot move in opposite direction! \n");
+                System.out.print("White pawn cannot move in opposite direction! \n");
                 return false;
             }
         }

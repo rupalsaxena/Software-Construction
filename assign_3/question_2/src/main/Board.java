@@ -205,15 +205,9 @@ public class Board implements Observer{
                     if(possibleMove.size() != 0){
                         return true;
                     }
-                    
                 };
-
             }
         }
-        
-    
-        
         return false;
-
     }
 }

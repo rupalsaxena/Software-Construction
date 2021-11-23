@@ -106,38 +106,5 @@ public class utils {
         return reverse_mapped_column;
     }
 
-    public static String[] map_board_values(int board_value){
-        String[] map_board_values = new String[3];
-        if (board_value == -1) {
-            map_board_values[0] = "white";
-            map_board_values[1] = "empty";
-            map_board_values[2] = "   ";
-        }
-        else if (board_value == 0) {
-            map_board_values[0] = "black";
-            map_board_values[1] = "empty";
-            map_board_values[2] = "   ";
-        }
-        else if (board_value == 2) {
-            map_board_values[0] = "Red";
-            map_board_values[1] = "pawn";
-            map_board_values[2] = "R_P";
-        }
-        else if (board_value == 4) {
-            map_board_values[0] = "White";
-            map_board_values[1] = "pawn";
-            map_board_values[2] = "W_P";
-        }
-        else if (board_value == 1) {
-            map_board_values[0] = "Red";
-            map_board_values[1] = "king";
-            map_board_values[2] = "R_K";
-        }
-        else if (board_value == 3) {
-            map_board_values[0] = "White";
-            map_board_values[1] = "king";
-            map_board_values[2] = "W_K";
-        }
-        return map_board_values;
-    }
+
 }

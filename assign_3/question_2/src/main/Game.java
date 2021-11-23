@@ -80,10 +80,8 @@ public class Game {
         else{
             if(!GameBoard.check_all_possible_moves(player_color)){
                 game_state = "GameOver";
-            };
-            
+            }
         }
         return game_state;
     }
-
 }

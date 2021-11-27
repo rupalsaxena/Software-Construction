@@ -8,6 +8,9 @@ public class Game {
     public static Player player_red = new Player();
     public static Player player_white = new Player();
     private static String game_mode;
+    private static Context context = new Context();
+    private static StartState startState = new StartState();
+    private static StopState stopState = new StopState();
 
     public static void main(String[] args) {
         /*
@@ -22,7 +25,9 @@ public class Game {
         /*
         This method is called from entrypoint. It is responsible for overall flow and running of the game.
          */
-        game_state = "Started";
+        startState.doAction(context);
+        game_state = context.getState().toString();
+
         System.out.print("Welcome to Checkers Game! \n");
 
         Board GameBoard = new Board();
@@ -51,7 +56,7 @@ public class Game {
         while (true) {
             System.out.println("Pieces left: " + player_red.player_name + " = " + GameBoard.count_pieces(Color.Red) +
                     " ," + player_white.player_name + " = " + GameBoard.count_pieces(Color.White));
-            game_state = "Ongoing";
+
             if (game_mode.equals("Double")) {
                 while (true) {
                     String new_move = utils.input_move(current_player);
@@ -120,20 +125,19 @@ public class Game {
         /*
         updates the class variable game_state. Checks game over state and changes game_state to GameOver.
          */
-
         int white_counter = GameBoard.count_pieces(Color.White);
         int red_counter = GameBoard.count_pieces(Color.Red);
         
         if (white_counter == 0 || red_counter == 0) {
-            game_state = "GameOver";
+            stopState.doAction(context);
+            game_state = context.getState().toString();
         }
         else{
             if(!GameBoard.check_all_possible_moves(player_color)){
-                game_state = "GameOver";
+                stopState.doAction(context);
+                game_state = context.getState().toString();
             };
-            
         }
         return game_state;
     }
-
 }

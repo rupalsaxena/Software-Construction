@@ -16,7 +16,6 @@ public class Game {
         /*
         Entry point of the game.
          */
-
         play();
     }
 // TODO: Do we check for the fact that when we have many pieces that can make moves, if the Hint or the validity
@@ -100,10 +99,8 @@ public class Game {
                     AI ai = AI.getInstance();
 
                     input_move = ai.DumbAI();
-                    System.out.println(input_move);
                 }
             }
-
             GameBoard.make_move(input_move, current_player.player_color);
             game_state = update_game_state(GameBoard, current_player.player_color);
 

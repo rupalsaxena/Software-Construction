@@ -97,7 +97,7 @@ public class Game {
                 }
                 else if (current_player.player_color == Color.White) {
                     System.out.println("AI making a move -");
-                    AI ai = new AI();
+                    AI ai = AI.getInstance();
 
                     input_move = ai.DumbAI();
                     System.out.println(input_move);

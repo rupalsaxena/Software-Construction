@@ -7,13 +7,15 @@ import java.util.List;
 
 
 public class AI {
-    //attributes
 
+    // Singleton pattern implemented in this class
+    private static AI instance = new AI();
+    private AI() {}
 
-//    public static void AI(String[] args){
-//        AI computer = new AI();
-//        computer.DumbAI();
-//    }
+    public static AI getInstance() {
+        return instance;
+    }
+
     public String DumbAI(){
         //gets the moves and randomly chooses any move even if they are incorrect
         //we get possible moves for a random piece that can make a move & then we randomly make a move

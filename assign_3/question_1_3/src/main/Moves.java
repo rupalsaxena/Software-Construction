@@ -58,7 +58,6 @@ public class Moves {
 
     }
 
-
     public List<Point> getAllPossibleMoves(int current_row, int current_column){
         row = current_row;
         column = current_column;

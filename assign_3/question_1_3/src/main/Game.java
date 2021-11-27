@@ -5,8 +5,8 @@ public class Game {
      */
 
     private static String game_state;
-    private static Player player_red = new Player();
-    private static Player player_white = new Player();
+    public static Player player_red = new Player();
+    public static Player player_white = new Player();
     private static String game_mode;
 
     public static void main(String[] args) {
@@ -16,7 +16,8 @@ public class Game {
 
         play();
     }
-
+// TODO: Do we check for the fact that when we have many pieces that can make moves, if the Hint or the validity
+//  checks if the correct piece is preferred along with the correct move for that piece as well????
     private static void play() {
         /*
         This method is called from entrypoint. It is responsible for overall flow and running of the game.
@@ -45,28 +46,56 @@ public class Game {
             return;
         }
 
-        String input_move;
+        String input_move = "";
         Player current_player = player_red;
         while (true) {
             System.out.println("Pieces left: " + player_red.player_name + " = " + GameBoard.count_pieces(Color.Red) +
-                    " ," + player_white.player_name +" = " + GameBoard.count_pieces(Color.White));
+                    " ," + player_white.player_name + " = " + GameBoard.count_pieces(Color.White));
             game_state = "Ongoing";
-
-            while (true) {
-                String new_move = utils.input_move(current_player);
-                boolean validity = GameBoard.check_input_validity(new_move, current_player.player_color);
-                if (validity) {
-                    input_move = new_move;
-                    break;
-                } else{
-                    boolean hintValidity = utils.is_valid_input_format_hint(new_move);
-                    if(hintValidity){
-                        String new_move_reformatted = "[" + new_move.substring(5, 7) + "]X[a1]";
-                        String possibleMoves = Board.getAllPossibleMoves(new_move_reformatted,
-                                current_player.player_color);
-                        System.out.println("Possible Moves: " + possibleMoves);
+            if (game_mode.equals("Double")) {
+                while (true) {
+                    String new_move = utils.input_move(current_player);
+                    boolean validity = GameBoard.check_input_validity(new_move, current_player.player_color);
+                    if (validity) {
+                        input_move = new_move;
+                        break;
+                    } else {
+                        boolean hintValidity = utils.is_valid_input_format_hint(new_move);
+                        if (hintValidity) {
+                            String new_move_reformatted = "[" + new_move.substring(5, 7) + "]X[a1]";
+                            String possibleMoves = Board.getAllPossibleMoves(new_move_reformatted,
+                                    current_player.player_color);
+                            System.out.println("Possible Moves: " + possibleMoves);
+                        } else System.out.println("Invalid move!");
                     }
-                    else System.out.println("Invalid move!");
+                }
+            }
+            else if (game_mode.equals("Single")){
+                if (current_player.player_color == Color.Red){
+                    System.out.println("Asking player to make a move -");
+                    while (true) {
+                        String new_move = utils.input_move(current_player);
+                        boolean validity = GameBoard.check_input_validity(new_move, current_player.player_color);
+                        if (validity) {
+                            input_move = new_move;
+                            break;
+                        } else {
+                            boolean hintValidity = utils.is_valid_input_format_hint(new_move);
+                            if (hintValidity) {
+                                String new_move_reformatted = "[" + new_move.substring(5, 7) + "]X[a1]";
+                                String possibleMoves = Board.getAllPossibleMoves(new_move_reformatted,
+                                        current_player.player_color);
+                                System.out.println("Possible Moves: " + possibleMoves);
+                            } else System.out.println("Invalid move!");
+                        }
+                    }
+                }
+                else if (current_player.player_color == Color.White) {
+                    System.out.println("AI making a move -");
+                    AI ai = new AI();
+
+                    input_move = ai.DumbAI();
+                    System.out.println(input_move);
                 }
             }
 

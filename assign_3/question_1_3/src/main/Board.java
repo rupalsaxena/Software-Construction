@@ -210,10 +210,10 @@ public class Board implements Observer{
 
             }
         }
-        
-    
-        
         return false;
+    }
 
+    public static Piece[][] getBoard() {
+        return board;
     }
 }

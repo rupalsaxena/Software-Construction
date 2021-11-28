@@ -32,8 +32,8 @@ public class utils {
     public static boolean is_valid_input_format_hint(String input){
         String[] possible_cols = {"a", "b", "c", "d", "e", "f", "g", "h"};
         String[] possible_rows = {"1", "2", "3", "4", "5", "6","7", "8"};
-        String hint = input.substring(0, 5);
         if(input.length() == 7){
+            String hint = input.substring(0, 5);
             if(hint.equals("hint@") || hint.equals("Hint@")){
                 String column = Character.toString(input.charAt(5));
                 String row = Character.toString(input.charAt(6));

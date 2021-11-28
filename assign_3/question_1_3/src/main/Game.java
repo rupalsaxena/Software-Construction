@@ -98,7 +98,11 @@ public class Game {
                     System.out.println("AI making a move -");
                     AI ai = AI.getInstance();
 
-                    input_move = ai.DumbAI();
+                    String new_move = ai.DumbAI();
+                    boolean validity = GameBoard.check_input_validity(new_move, current_player.player_color);
+                    if (validity) {
+                        input_move = new_move;
+                    }
                 }
             }
             GameBoard.make_move(input_move, current_player.player_color);

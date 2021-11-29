@@ -4,13 +4,12 @@ import java.util.List;
 public class Game {
     /*
     Class responsibility: This is the main class holding the responsibility of running the entire game.
-    Two class variables: player, game_state
      */
 
     private static String game_state;
     private static Player player_red = new Player();
     private static Player player_white = new Player();
-    private static String game_mode;
+    private static String game_mode;ß
     private static Context context = new Context();
     private static StartState startState = new StartState();
     private static StopState stopState = new StopState();

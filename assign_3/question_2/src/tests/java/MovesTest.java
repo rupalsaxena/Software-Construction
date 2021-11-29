@@ -1,0 +1,93 @@
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class MovesTest {
+    private Board gameboard;
+    Moves moves;
+    Piece[][] board;
+    @BeforeEach
+    void setup(){
+        gameboard = new Board();
+        board = init_board();
+        moves =new Moves(board, Color.Red);
+
+    }
+    @Test
+    void check_move() {
+        assertTrue(moves.check_move(2, 1, 3, 0));
+        assertFalse(moves.check_move(1, 2, 2, 1));
+        assertTrue(moves.check_move(2, 7, 3, 6));
+        assertFalse(moves.check_move(2, 1, 1, 0));
+    }
+
+    @Test
+    void getAllPossibleMoves() {
+        List<Point> movesList = new ArrayList<Point>();
+        Point point1 = new Point (3,0);
+        Point point2 = new Point(3, 2);
+        movesList.add(point1);
+        movesList.add(point2);
+        List<Point> res = moves.getAllPossibleMoves(2, 1);
+        assertEquals(movesList, res) ;
+        movesList.remove(point1);
+        movesList.remove(point2);
+        List<Point> res2 = moves.getAllPossibleMoves(1, 0);
+        assertEquals(movesList, res2);
+
+
+    }
+
+    @Test
+    void getKnockOutPosition() {
+        List<Point> expected =new ArrayList<Point>();
+        assertEquals(expected, moves.getKnockOutPosition());
+    }
+
+
+
+
+    private Piece[][] init_board() {
+        /*
+        Used to give board array to functions which need one
+        */
+
+        Piece[][] board = new Piece[8][8];
+        //For the Red player
+        for (int y = 0; y <= 2; y++) {
+            for (int x = 0; x <= 7; x++) {
+                if (y % 2 == 1 && x % 2 == 0) {
+                    board[y][x] = new Piece(Color.Red, Rank.Pawn, x, y, gameboard);
+                } else if (y % 2 == 0 && x % 2 == 1) {
+                    board[y][x] = new Piece(Color.Red, Rank.Pawn, x, y, gameboard);
+                } else {
+                    board[y][x] = new Piece(Color.Empty, Rank.Empty, x, y, gameboard);
+                }
+            }
+        }
+        //For the empty rows in between the players
+        for (int y = 3; y < 5; y++) {
+            for (int x = 0; x <= 7; x++) {
+                board[y][x] = new Piece(Color.Empty, Rank.Empty, x, y, gameboard);
+            }
+        }
+        //For the White player
+        for (int y = 5; y <= 7; y++) {
+            for (int x = 0; x <= 7; x++) {
+                if (y % 2 == 1 && x % 2 == 0) {
+                    board[y][x] = new Piece(Color.White, Rank.Pawn, x, y, gameboard);
+                } else if (y % 2 == 0 && x % 2 == 1) {
+                    board[y][x] = new Piece(Color.White, Rank.Pawn, x, y, gameboard);
+                } else {
+                    board[y][x] = new Piece(Color.Empty, Rank.Empty, x, y, gameboard);
+                }
+            }
+        }
+        return board;
+    }
+}

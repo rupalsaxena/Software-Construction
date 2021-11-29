@@ -21,7 +21,7 @@ public class Game {
          */
         play();
     }
-    
+
     private static void play() {
         /*
         This method is called from entrypoint. It is responsible for overall flow and running of the game.
@@ -66,7 +66,7 @@ public class Game {
         Player current_player = player_red;
 
         while (true) {
-            System.out.println("Score: " + player_red.get_player_name() + " = " + (12 - GameBoard.count_pieces(Color.White)) +
+            System.out.println("Score Board: " + player_red.get_player_name() + " = " + (12 - GameBoard.count_pieces(Color.White)) +
                     " ," + player_white.get_player_name() + " = " + (12 - GameBoard.count_pieces(Color.Red)));
 
             // If the mode is Double then terminal inputs on every move is checked as follows.

@@ -30,6 +30,9 @@ public class utils {
     }
 
     public static boolean is_valid_input_format_hint(String input){
+        /*
+        Checks if the input is a valid hint
+         */
         String[] possible_cols = {"a", "b", "c", "d", "e", "f", "g", "h"};
         String[] possible_rows = {"1", "2", "3", "4", "5", "6","7", "8"};
         if(input.length() == 7){
@@ -54,19 +57,18 @@ public class utils {
         return input;
     }
 
-    public static String input_game_mode() { //TODO: handle exceptions
-        // inputs move using scanner
+    public static String input_game_mode() {
+        // inputs game mode as Single or Double
 
         System.out.println("Input game mode as ''Single'' or ''Double'' player : ");
         String mode = scanner.nextLine();
-        //System.out.println(mode);
         return mode;
     }
 
     public static String input_player_name(Color player_color) {
-        // inputs move using scanner
+        // inputs player name
 
-        System.out.println("Input your ''Name'' player handling " + player_color + " Pieces : ");
+        System.out.println("Player handling " + player_color + " pieces, please input your name: ");
         String player_name = scanner.nextLine();
         return player_name;
     }

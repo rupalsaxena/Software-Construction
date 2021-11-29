@@ -82,7 +82,7 @@ public class Board implements Observer{
         System.out.print("      a     b     c     d     e     f     g     h\n");
     }
 
-    public void make_move(String input, Color color) {
+    public void make_move(String input) {
         /*
          * Takes validated input from player and moves pieces
          */
@@ -165,19 +165,15 @@ public class Board implements Observer{
     }
 
     public static String getAllPossibleMoves (String input, Color player_color){
+        /*
+        Get all possible moves for hint
+         */
         List<Point> allMoves = new ArrayList<Point>();
         List<String> allMovesString = new ArrayList<String>();
         String[] col_rows = utils.get_current_future_positions(input);
         int current_mapped_row = utils.map_rows(Integer.valueOf(col_rows[1]));
         int current_mapped_col = utils.map_columns(col_rows[0]);
 
-        /* Not needed, already done in Piece.is_valid_move(). Check with Elena
-        Boolean is_valid_position = Validation.is_valid_position(current_mapped_row, current_mapped_col, player, board);
-
-        if(is_valid_position){
-            allMoves = Moves.getAllPossibleMoves(current_mapped_row, current_mapped_col);
-        }
-        */
         Moves moves = new Moves(board, player_color);
         allMoves = moves.getAllPossibleMoves(current_mapped_row, current_mapped_col);
         for (int i= 0; i<allMoves.size(); i++){
@@ -191,7 +187,11 @@ public class Board implements Observer{
         return allMovesString.toString();
     }
 
-    public boolean check_all_possible_moves(Color player_color){
+    public boolean is_game_ongoing(Color player_color){
+        /*
+        Check if game is still ongoing.
+         */
+
         Moves moves = new Moves(board, player_color);
 
         for(int i=0; i<8; i++){
@@ -199,15 +199,13 @@ public class Board implements Observer{
                 Piece boardPiece = board[i][j];
                 if(boardPiece.pCol.name() == player_color.name()){
                     Point boardValue = boardPiece.pos;
-                    int row = (int) boardValue.getX();
-                    int column = (int) boardValue.getY();
+                    int row = (int) boardValue.getY();
+                    int column = (int) boardValue.getX();
                     List<Point> possibleMove = moves.getAllPossibleMoves(row, column);
                     if(possibleMove.size() != 0){
                         return true;
                     }
-                    
                 };
-
             }
         }
         return false;

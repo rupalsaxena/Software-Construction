@@ -20,7 +20,6 @@ public class Moves {
     }
 
     public boolean check_move(int current_row, int current_col, int future_row, int future_col){
-
         row = current_row;
         column = current_col;
         Point future_point = new Point(future_row, future_col);
@@ -81,13 +80,9 @@ public class Moves {
         if(singleJump.size() == 0 && multipleJump.size() == 0){
             allPossibleMoves.addAll(simpleMoves);
         }
-
-
         allPossibleMoves.addAll(singleJump);
         allPossibleMoves.addAll(multipleJump);
         return allPossibleMoves;
-
-
     }
 
     private static List<Point> SimpleMove(int current_row, int current_column){
@@ -200,9 +195,6 @@ public class Moves {
         }
     }
 
-
-
-
     private static List<Point> NotEmptyDiagonal(int current_row, int current_column){
         List<Point> nonEmptyDiagonals = new ArrayList<Point>();
         List<Point> diagonalPositions = DiagonalPositions(current_row, current_column);
@@ -215,7 +207,6 @@ public class Moves {
         }
         return nonEmptyDiagonals;
     }
-
 
     private static List<Point> DiagonalPositions(int current_row, int current_column){
         List<Point> diagonalPositions = new ArrayList<Point>();

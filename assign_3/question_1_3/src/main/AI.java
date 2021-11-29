@@ -38,12 +38,11 @@ public class AI {
         //randomly choose a move and return it
         Random rand = new Random();
         Point random_move = possible_moves_for_piece.get(rand.nextInt(possible_moves_for_piece.size()));
-        System.out.print("Dumb AI thinks that it wants to make the move to - ");
-        System.out.println(random_move);
         String from =
                 "[" + utils.reverse_map_columns(random_piece.pos.x) + utils.reverse_map_rows(random_piece.pos.y) + "]";
         //Convert Point to string
         String to = "[" + utils.reverse_map_columns(random_move.y) + utils.reverse_map_rows(random_move.x) + "]";
+        System.out.print("Computer's move: ");
         System.out.println(from+"X"+to);
         return from+"X"+to;
 
@@ -65,7 +64,6 @@ public class AI {
     public void SmartAI(){
         //implements minimax algorithm to come up with moves that are intelligent and can challenge the player
         //return;
-
     }
 
 }

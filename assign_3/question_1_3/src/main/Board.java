@@ -197,8 +197,8 @@ public class Board implements Observer{
         for(int i=0; i<8; i++){
             for(int j=0; j<8; j++){
                 Piece boardPiece = board[i][j];
-                if(boardPiece.pCol.name() == player_color.name()){
-                    Point boardValue = boardPiece.pos;
+                if(boardPiece.getColor().name() == player_color.name()){
+                    Point boardValue = boardPiece.getpos();
                     int row = (int) boardValue.getY();
                     int column = (int) boardValue.getX();
                     List<Point> possibleMove = moves.getAllPossibleMoves(row, column);

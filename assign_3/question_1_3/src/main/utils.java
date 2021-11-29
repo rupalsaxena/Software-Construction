@@ -52,7 +52,7 @@ public class utils {
     public static String input_move(Player player) {
         // inputs move using scanner
 
-        System.out.println("Input your move " + player.player_name + ":");
+        System.out.println("Input your move " + player.get_player_name() + ":");
         String input = scanner.nextLine();
         return input;
     }

@@ -7,9 +7,9 @@ enum Rank{Pawn, King, Empty}
 
 
 public class Piece implements Subject{
-    public Color pCol;
+    private Color pCol;
     private Rank pRank;
-    public Point pos;
+    private Point pos;
     private List<Observer> observers = new ArrayList<Observer>();
 
     public Piece(Color col, Rank rank, int x, int y, Observer Board){
@@ -17,6 +17,14 @@ public class Piece implements Subject{
         this.pRank = rank;
         this.pos = new Point(x,y);
         registerObserver(Board);
+    }
+
+    public Color getColor() {
+        return this.pCol;
+    }
+
+    public Point getpos() {
+        return this.pos;
     }
 
     public void move_piece(Point future_point){

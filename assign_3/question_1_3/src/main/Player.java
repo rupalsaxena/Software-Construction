@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player{
-    public String player_name;
-    public Color player_color;
+    private String player_name;
+    private Color player_color;
 
     public void set_player_name(String name){
         this.player_name = name;
@@ -31,8 +31,8 @@ public class Player{
         for (int i=0; i<8; i++){
             for (int j=0; j<8; j++){
                 Piece current_piece = board[i][j];
-                if (current_piece.pCol == this.get_player_color()){
-                    coordinates_list.add(current_piece.pos);
+                if (current_piece.getColor() == this.get_player_color()){
+                    coordinates_list.add(current_piece.getpos());
                 }
             }
         }
@@ -47,7 +47,7 @@ public class Player{
         for (int i=0; i<8; i++){
             for (int j=0; j<8; j++){
                 Piece current_piece = board[i][j];
-                if (current_piece.pCol == this.get_player_color()){
+                if (current_piece.getColor() == this.get_player_color()){
                     piece_list.add(current_piece);
                 }
             }

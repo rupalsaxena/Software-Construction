@@ -1,4 +1,5 @@
 import java.net.SocketOption;
+import java.util.List;
 
 public class Game {
     /*
@@ -7,8 +8,8 @@ public class Game {
      */
 
     private static String game_state;
-    public static Player player_red = new Player();
-    public static Player player_white = new Player();
+    private static Player player_red = new Player();
+    private static Player player_white = new Player();
     private static String game_mode;
     private static Context context = new Context();
     private static StartState startState = new StartState();
@@ -20,8 +21,7 @@ public class Game {
          */
         play();
     }
-    // TODO: Do we check for the fact that when we have many pieces that can make moves, if the Hint or the validity
-    //  checks if the correct piece is preferred along with the correct move for that piece as well????
+    
     private static void play() {
         /*
         This method is called from entrypoint. It is responsible for overall flow and running of the game.
@@ -66,8 +66,8 @@ public class Game {
         Player current_player = player_red;
 
         while (true) {
-            System.out.println("Pieces left: " + player_red.player_name + " = " + GameBoard.count_pieces(Color.Red) +
-                    " ," + player_white.player_name + " = " + GameBoard.count_pieces(Color.White));
+            System.out.println("Score: " + player_red.get_player_name() + " = " + (12 - GameBoard.count_pieces(Color.White)) +
+                    " ," + player_white.get_player_name() + " = " + (12 - GameBoard.count_pieces(Color.Red)));
 
             // If the mode is Double then terminal inputs on every move is checked as follows.
             if (game_mode.equals("Double")) {
@@ -81,7 +81,7 @@ public class Game {
                     if not then checking is it a valid Hint,
                     if not then it's an invalid move!
                      */
-                    boolean validity = GameBoard.check_input_validity(new_move, current_player.player_color);
+                    boolean validity = GameBoard.check_input_validity(new_move, current_player.get_player_color());
                     if (validity) {
                         input_move = new_move;
                         break;
@@ -98,13 +98,15 @@ public class Game {
                 while (true) {
 
                     // input player move
-                    if (current_player.player_color == Color.Red){
+                    if (current_player.get_player_color() == Color.Red){
                         new_move = utils.input_move(current_player);
                     }
                     // Computer deciding it's move
-                    else if (current_player.player_color == Color.White) {
+                    else if (current_player.get_player_color() == Color.White) {
                         AI ai = AI.getInstance();
-                        new_move = ai.DumbAI();
+
+                        List<Piece> computer_pieces = Game.player_white.get_pieces();
+                        new_move = ai.DumbAI(computer_pieces);
                     }
 
                     /*
@@ -114,7 +116,7 @@ public class Game {
                     if not then it's an invalid move!
                      */
 
-                    boolean validity = GameBoard.check_input_validity(new_move, current_player.player_color);
+                    boolean validity = GameBoard.check_input_validity(new_move, current_player.get_player_color());
                     if (validity) {
                         input_move = new_move;
                         break;
@@ -135,16 +137,16 @@ public class Game {
             past_player = current_player;
 
             //Switch player turns
-            if (current_player.player_color == Color.Red) {
+            if (current_player.get_player_color() == Color.Red) {
                 current_player = player_white;
             } else {
                 current_player = player_red;
             }
 
             // Checking if the next player already lost and if the game is over
-            game_state = update_game_state(GameBoard, current_player.player_color);
+            game_state = update_game_state(GameBoard, current_player.get_player_color());
             if (game_state.equals("GameOver")) {
-                System.out.print("Game is Over! " + past_player.player_name + " is winner!");
+                System.out.print("Game is Over! " + past_player.get_player_name() + " is winner!");
                 break;
             }
         }
@@ -176,7 +178,7 @@ public class Game {
         */
         String new_move_reformatted = "[" + new_move.substring(5, 7) + "]X[a1]";
         String possibleMoves = GameBoard.getAllPossibleMoves(new_move_reformatted,
-                current_player.player_color);
+                current_player.get_player_color());
         System.out.println("Possible Moves: " + possibleMoves);
     }
 }

@@ -16,36 +16,41 @@ public class AI {
         return instance;
     }
 
-    public String DumbAI(){
-        //gets the moves and randomly chooses any move even if they are incorrect
-        //we get possible moves for a random piece that can make a move & then we randomly make a move
-        //get all locations of pieces that are alive and choose a piece that can move
-        List<Piece> all_computer_pieces = Game.player_white.get_pieces();
+    public String DumbAI(List<Piece> all_computer_pieces){
+        /*
+        Gets the computer pieces and randomly choose a piece whose moves are possible.
+        From the randomly chosen piece, it will randomly choose a move from all the possible moves.
+         */
         Piece[][] b = Board.getBoard();
         List<Piece> computer_pieces_can_move = new ArrayList<>();
+
         for (Piece element : all_computer_pieces){
             Moves m = new Moves(b, Color.White);
-            List<Point> possible_moves = m.getAllPossibleMoves(element.pos.y, element.pos.x);
+            List<Point> possible_moves = m.getAllPossibleMoves(element.getpos().y, element.getpos().x);
             if (possible_moves.size() > 0){
                 computer_pieces_can_move.add(element);
             }
         }
+
         Random randomizer = new Random();
         Piece random_piece = computer_pieces_can_move.get(randomizer.nextInt(computer_pieces_can_move.size()));
+
         //for chosen piece get a list of possible moves
-        List<Point> possible_moves_for_piece = new Moves(b, Color.White).getAllPossibleMoves(random_piece.pos.y,
-                random_piece.pos.x);
+        List<Point> possible_moves_for_piece = new Moves(b, Color.White).getAllPossibleMoves(random_piece.getpos().y,
+                random_piece.getpos().x);
+
         //randomly choose a move and return it
         Random rand = new Random();
         Point random_move = possible_moves_for_piece.get(rand.nextInt(possible_moves_for_piece.size()));
         String from =
-                "[" + utils.reverse_map_columns(random_piece.pos.x) + utils.reverse_map_rows(random_piece.pos.y) + "]";
+                "[" + utils.reverse_map_columns(random_piece.getpos().x) + utils.reverse_map_rows(random_piece.getpos().y) + "]";
+
         //Convert Point to string
         String to = "[" + utils.reverse_map_columns(random_move.y) + utils.reverse_map_rows(random_move.x) + "]";
         System.out.print("Computer's move: ");
         System.out.println(from+"X"+to);
-        return from+"X"+to;
 
+        return from+"X"+to;
     }
 
     public void BasicAI(){

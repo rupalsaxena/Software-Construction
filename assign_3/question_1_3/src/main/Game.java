@@ -9,7 +9,7 @@ public class Game {
     private static String game_state;
     private static Player player_red = new Player();
     private static Player player_white = new Player();
-    private static String game_mode;ß
+    private static String game_mode;
     private static Context context = new Context();
     private static StartState startState = new StartState();
     private static StopState stopState = new StopState();

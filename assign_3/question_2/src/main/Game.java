@@ -33,19 +33,18 @@ public class Game {
 
             while (true) {
                 String new_move = utils.input_move(player);
-                boolean validity = GameBoard.check_input_validity(new_move, player_color);
+                boolean validity = GameBoard.check_validity(new_move, player_color);
+                boolean hintValidity = utils.is_valid_input_format_hint(new_move);
                 if (validity) {
                     input_move = new_move;
                     break;
-                } else{
-                    boolean hintValidity = utils.is_valid_input_format_hint(new_move);
-                    if(hintValidity){
+                }
+                else if(hintValidity){
                         String new_move_reformatted = "[" + new_move.substring(5, 7) + "]X[a1]";
                         String possibleMoves = Board.getAllPossibleMoves(new_move_reformatted, player_color);
                         System.out.println("Possible Moves: " + possibleMoves);
                     }
-                    else System.out.println("Invalid move!");
-                }
+                else System.out.println("Invalid move!");
             }
 
             GameBoard.make_move(input_move, player_color);
@@ -81,10 +80,8 @@ public class Game {
         else{
             if(!GameBoard.check_all_possible_moves(player_color)){
                 game_state = "GameOver";
-            };
-            
+            }
         }
         return game_state;
     }
-
 }

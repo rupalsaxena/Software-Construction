@@ -49,7 +49,41 @@ class MovesTest {
         assertEquals(expected, moves.getKnockOutPosition());
     }
 
+    @Test
+    void test_multiple_jump(){
+        Board gameboard = new Board();
 
+        // Setup Pieces to allow for multiple jump
+        gameboard.make_move("[b6]X[b4]", Color.Red);
+        gameboard.make_move("[e7]X[e4]", Color.Red);
+
+        // Assert that multiple jump is possible. Needed to update knockout positions
+        assertTrue(gameboard.check_validity("[a3]X[e7]", Color.White));
+
+        // Make multiple-jump, assert that "pieces which were jumped over" are eliminated
+        gameboard.make_move("[a3]X[e7]", Color.White);
+        assertEquals(10, gameboard.count_pieces( Color.Red));
+        assertEquals(12, gameboard.count_pieces(Color.White));
+    }
+
+    @Test
+    void test_DiagonalPositions(){
+        /*
+         * Would be better to directly call DiagonalPositions and see if it returns correct positions
+         * But DiagonalPositions is private, so this is needed
+         */
+        Board gameboard = new Board();
+
+        // Assert that move is currently illegal because piece is pawn, cannot move backwards
+        gameboard.make_move("[b6]X[a5]", Color.Red);
+        assertFalse(gameboard.check_validity("[a5]X[b6]", Color.Red));
+        // Make the piece king
+        gameboard.make_move("[a5]X[b1]", Color.Red);
+        gameboard.make_move("[b1]X[a5]", Color.Red);
+
+        // This move was illegal for piece before
+        assertTrue(gameboard.check_validity("[a5]X[b6]", Color.Red));
+    }
 
 
     private Piece[][] init_board() {

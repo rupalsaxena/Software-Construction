@@ -14,9 +14,15 @@ public class Card {
         pw = new PrintWriter(System.out, true);
     }
     public Rank getRank() { return cRank; }
+
     public Suit getSuit() { return cSuit; }
+
     public void print(){
-         pw.println("\uD83C\uDCA1");
+        System.out.println(this);
+    }
+
+    public String toString(){
+        return String.format("%s of %s", cRank.toString(), cSuit.toString());
     }
 
 }

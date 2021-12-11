@@ -17,6 +17,7 @@ public class Deck implements Iterable, CardSource{
     }
 
     private void newDeck(){
+        // Fill deck with 52 unique cards
         if(this.isEmpty()) {
             for (Rank aRank : Rank.values()) {
                 for (Suit aSuit : Suit.values()) {
@@ -31,6 +32,7 @@ public class Deck implements Iterable, CardSource{
 
     @Override
     public Card draw() {
+        // Refill deck if empty, then draw card
         if (Cards.isEmpty()) {
             this.newDeck();
         }

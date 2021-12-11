@@ -6,9 +6,9 @@ import java.util.List;
 public class Deck implements Iterable, CardSource{
 
     private List<Card> Cards = new ArrayList<>();
+
     public Deck(){
         this.newDeck();
-        this.shuffle();
         // System.out.println(Cards.size());
     }
 
@@ -23,6 +23,7 @@ public class Deck implements Iterable, CardSource{
                     Cards.add(new Card(aRank, aSuit));
                 }
             }
+            this.shuffle();
         }
     }
 

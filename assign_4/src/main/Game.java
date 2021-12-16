@@ -24,21 +24,33 @@ public class Game {
             // boolean money_left = user.remove_balance(120);
             // System.out.println(money_left);
             while(true){
-                String newGameState = utils.inputDecision();
-                boolean validInput = utils.validDecisionInput(newGameState);
-                if(validInput){
-                    gameState = newGameState;
+                if(user.get_balance() < 0){
+                    gameState = "No";
                     break;
-                    
                 }
                 else{
-                    System.out.println("Invalid input!");
+                    String newGameState = utils.inputDecision();
+                    boolean validInput = utils.validDecisionInput(newGameState);
+                    if(validInput){
+                        gameState = newGameState;
+                        break;
+                        
+                    }
+                    else{
+                        System.out.println("Invalid input!");
+                    }
                 }
             }
 
-            if(gameState.equals("No")) {
+            if(gameState.equals("No") || gameState.equals("no")) {
+                if(user.get_balance() > 0){
                 System.out.print("Game is done. You win CHF " + user.get_balance() + "\n");
                 break;
+                }
+                else{
+                    System.out.print("Game over. No money left\n");
+                    break; 
+                }
             }
 
             while(true){
@@ -54,7 +66,8 @@ public class Game {
                 
             }
             String result = Casion.playBlackjack(bet, user, bank);
-            System.out.println("You " + result + " the game \n");
+            System.out.println("\nYou " + result + " the game \n");
+            System.out.println("-----------------------------");
 
 
 

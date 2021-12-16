@@ -15,6 +15,7 @@ public class Casion {
 
         // get two cards for player
         System.out.println("\nYou bet CHF: " + bet + "\n");
+        System.out.println("-----------------------------");
         System.out.println("Your cards: ");
         userCards = initialCards(deck);
         for(int i=0; i < userCards.size(); i++){
@@ -36,10 +37,7 @@ public class Casion {
 
         // Decide wether to stay or not
 
-        //TODO: Do calculation of values sepeartely and not as a list, otherwise it will calculate different values when ace involved
-  
-
-        while(gameState.equals("Hit")){
+        while(gameState.equals("Hit") || gameState.equals("hit")){
 
             while(true){  
                 String cardDecision = utils.inputCardDecision();
@@ -53,17 +51,21 @@ public class Casion {
                 }
     
             }
-            if (gameState.equals("Stay")){
+            if (gameState.equals("Stay") || gameState.equals("stay")){
                 break;
             }
             else{
                 Card card3 = deck.draw();
                 userCards.add(card3);
-                System.out.println("\nYour cards:");
+                System.out.println("\n-----------------------------");
+                System.out.println("Your cards:");
                 for(int i=0; i < userCards.size(); i++){
                     userCards.get(i).print();
                 }
-                pointsUser = cardValues(userCards, pointsUser);
+                ArrayList<Card> newCard = new ArrayList<Card>();
+                newCard.add(card3);
+                Integer pointNewCard = cardValues(newCard, pointsUser);
+                pointsUser += pointNewCard;
                 if(pointsUser > 21){
                     System.out.println("Your points: " + pointsUser + " / Dealer points: " + pointsDealer);
                     result = "Loose";
@@ -80,9 +82,11 @@ public class Casion {
 
         }
         if(!result.equals("Loose")){
-            System.out.println("\nThe hidden card from the Dealer: " + dealerCards.get(1));
+            System.out.println("\n-----------------------------");
+            System.out.println("The hidden card from the Dealer: " + dealerCards.get(1));
             pointsDealer = cardValues(dealerCards, pointsDealer);
-            System.out.println("Dealer points: " + pointsDealer);
+            System.out.println("Dealer points: " + pointsDealer + " / Your points: " + pointsUser);
+            System.out.println("-----------------------------");
         }
      
 
@@ -93,30 +97,37 @@ public class Casion {
             for(int i=0; i < dealerCards.size(); i++){
                 dealerCards.get(i).print();
             }
-            pointsDealer = cardValues(dealerCards, pointsDealer);
+            ArrayList<Card> newCardDealer = new ArrayList<Card>();
+            newCardDealer.add(card4);
+            Integer pointNewCardDealer = cardValues(newCardDealer, pointsUser);
+            pointsDealer += pointNewCardDealer;
             if(pointsDealer > 21){
+                System.out.println("Dealer points: " + pointsDealer + " / Your points: " + pointsUser + "\n");
+                System.out.println("-----------------------------");
                 result = "Win";
                 break;
             }
             else{
-            System.out.println("Dealer points: " + pointsDealer);
+            System.out.println("Dealer points: " + pointsDealer + " / Your points: " + pointsUser + "\n");
+            System.out.println("-----------------------------");
             }
 
         }
 
-        //TODO: Check what happens with if else statement
         if(result.isEmpty()){
             // Player looses
             if(pointsUser < pointsDealer){
                 player.remove_balance(bet);
                 dealer.add_balance(bet);
                 result = "Loose";
+                return result;
             }
 
             // Tie
             else if(pointsUser.equals(pointsDealer)){
 
                 result = "Tie";
+                return result;
             }
 
 
@@ -125,11 +136,18 @@ public class Casion {
                 player.add_balance(bet);
                 dealer.remove_balance(bet);
                 result = "Win";
+                return result;
             }
         }
-        else{
+        else if(result.equals("Loose")){
             player.remove_balance(bet);
             dealer.add_balance(bet);
+            return result;
+        }
+        else if(result.equals("Win")){
+            player.add_balance(bet);
+            dealer.remove_balance(bet);
+            return result;
         }
 
         return result;

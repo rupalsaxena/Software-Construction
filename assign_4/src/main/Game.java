@@ -66,18 +66,10 @@ public class Game {
                 
             }
             String result = Casion.playBlackjack(bet, user, bank);
-            System.out.println("\nYou " + result + " the game \n");
+            utils.printAndWait("\nYou " + result + " the round \n");
             System.out.println("-----------------------------");
 
-
-
-
-           
-            
-
-            
         }
-
 
     }
 

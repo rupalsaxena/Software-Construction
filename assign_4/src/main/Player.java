@@ -1,10 +1,15 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Player {
     public final String name;
     private int money;
+    private ArrayList<Card> hand;
 
     public Player(String pName, int pMoney){
         this.name = pName;
         this.money = pMoney;
+        this.hand = new ArrayList<>();
     }
 
     public int get_balance(){ return this.money; }

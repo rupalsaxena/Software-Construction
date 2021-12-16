@@ -11,12 +11,17 @@ public class utils {
     }
 
     public static Boolean validDecisionInput(String string){
-     return true;
+        if(string.equals("Yes") || string.equals("yes") || string.equals("No") || string.equals("no")){
+            return true;
+        }
+        else{
+            return false;
+        }
         
     }
 
     public static String inputBet(){
-        System.out.println("Pleas make a bet: ");
+        System.out.println("\nPleas make a bet: ");
         String input = scanner.nextLine();
         return input;
     }
@@ -34,12 +39,17 @@ public class utils {
     }
 
     public static String inputCardDecision(){
-        System.out.println("Do you want to stay or hit?");
+        System.out.println("\nDo you want to stay or hit?");
         String input = scanner.nextLine();
         return input;
     }
 
     public static Boolean validCardDecisionInput(String string){
-        return true;
+        if(string.equals("Hit") || string.equals("hit") || string.equals("Stay") || string.equals("stay")){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

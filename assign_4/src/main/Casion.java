@@ -172,7 +172,7 @@ public class Casion {
     private static Integer cardValues(ArrayList<Card> cards, Integer points){
         Integer sum = 0;
         for(int i=0; i<cards.size(); i++){
-            Integer value = cards.get(i).getValue(points);
+            Integer value = cards.get(i).getValue(points+sum);
             sum += value;
         }
         

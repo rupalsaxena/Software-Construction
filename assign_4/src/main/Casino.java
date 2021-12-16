@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 
-public class Casion {
+public class Casino {
 
 
     public static String playBlackjack(Integer bet, Player player, Player dealer){

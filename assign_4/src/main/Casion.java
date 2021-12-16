@@ -87,6 +87,7 @@ public class Casion {
             pointsDealer = cardValues(dealerCards, pointsDealer);
             System.out.println("Dealer points: " + pointsDealer + " / Your points: " + pointsUser);
             System.out.println("-----------------------------");
+            
         }
      
 

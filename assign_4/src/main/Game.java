@@ -1,5 +1,3 @@
-import java.util.Iterator;
-
 
 public class Game {
     public static void main(String[] args) {
@@ -10,19 +8,12 @@ public class Game {
 
     private static void play() {
         System.out.println("Welcome to Blackjack! \n");
-        Deck deck = new Deck();
-        Card card = deck.draw();
         String gameState;
         Integer bet;
-        // card.print();
-        // System.out.println(card.getRank());
-        // System.out.println(card.getSuit());
         Player user = new Player("user", 100);
         Player bank = new Player("bank", 100000);
         while(true){
             System.out.println("You current amount: CHF " + user.get_balance());
-            // boolean money_left = user.remove_balance(120);
-            // System.out.println(money_left);
             while(true){
                 if(user.get_balance() < 0){
                     gameState = "No";

@@ -1,17 +1,16 @@
 import java.awt.*;
-import java.io.PrintWriter;
 
 enum Suit {Spades, Hearts, Diamonds, Clubs}
 enum Rank {Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King}
+
+
 public class Card {
     private Rank cRank;
     private Suit cSuit;
-    private PrintWriter pw;
 
     public Card(Rank aRank, Suit aSuit){
         this.cRank = aRank;
         this.cSuit = aSuit;
-        pw = new PrintWriter(System.out, true);
     }
     public Rank getRank() { return cRank; }
 
@@ -22,7 +21,14 @@ public class Card {
     }
 
     public String toString(){
-        return String.format("%s of %s", cRank.toString(), cSuit.toString());
+        String suit = "";
+        switch (this.cSuit) {
+            case Spades -> suit = "\u2660";
+            case Hearts -> suit = "\u2665";
+            case Diamonds -> suit = "\u2666";
+            case Clubs -> suit = "\u2663";
+        }
+        return String.format("%s %s", cRank.toString(), suit);
     }
 
 }

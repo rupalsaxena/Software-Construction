@@ -1,15 +1,13 @@
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
-public class Deck implements Iterable, CardSource{
+public class Deck implements CardSource{
 
     private List<Card> Cards = new ArrayList<>();
 
     public Deck(){
         this.newDeck();
-        // System.out.println(Cards.size());
     }
 
     private void shuffle(){
@@ -17,18 +15,19 @@ public class Deck implements Iterable, CardSource{
     }
 
     private void newDeck(){
-        // Fill deck with 52 unique cards
+        // Fill deck with 6 * 52 unique cards
+        // 6 full decks are used to hinder card counting. Strategy commonly used by casinos
         if(this.isEmpty()) {
-            for (Rank aRank : Rank.values()) {
-                for (Suit aSuit : Suit.values()) {
-                    Cards.add(new Card(aRank, aSuit));
+            for(int i=0; i<6; i++){
+                for (Rank aRank : Rank.values()) {
+                    for (Suit aSuit : Suit.values()) {
+                        Cards.add(new Card(aRank, aSuit));
+                    }
                 }
             }
             this.shuffle();
         }
     }
-
-    public Iterator<Card> iterator(){return Cards.iterator();}
 
     @Override
     public Card draw() {

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -22,7 +23,7 @@ public class utils {
     }
 
     public static String inputBet(){
-        System.out.println("\nPleas make a bet: ");
+        System.out.println("\nPlease make a bet: ");
         String input = scanner.nextLine();
         return input;
     }
@@ -72,15 +73,15 @@ public class utils {
         }
 
         if(Objects.equals(dCardsString.get(1), "  ")){
-            dCardsString.set(1, "Unknown");
+            dCardsString.set(1, "Hidden");
         }
-        System.out.format("%7s | %8s | %8s\n ---------------------------------\n"," ", "player", "dealer");
+        System.out.format("%7s | %8s | %8s\n ---------------------------------\n"," ", player, dealer);
         for(int i=0; i<max; i++){
             System.out.format("%7s | %8s | %8s\n","Cards", pCardsString.get(i), dCardsString.get(i));
         }
         System.out.format("---------------------------------\n%7s | %8d | %8d\n ", "Points", playerPoints, dealerPoints);
         try {
-            Thread.sleep(800); // In your case it would be: Thread.sleep(100);
+            Thread.sleep(800);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,9 +90,45 @@ public class utils {
     public static void printAndWait(String message){
         System.out.println(message);
         try {
-            Thread.sleep(800); // In your case it would be: Thread.sleep(100);
+            Thread.sleep(800);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public static Integer cardValues(ArrayList<Card> cards){
+        Integer sum = 0;
+        int numAces = 0;
+        ArrayList<Card> cardsCopy = new ArrayList<Card>(cards);
+        Collections.sort(cardsCopy);
+
+        for (Card card : cardsCopy) {
+            if (card.getRank() != Rank.Ace) {
+                Integer value = card.getValue();
+                sum += value;
+            } else {
+                numAces += 1;
+            }
+        }
+
+        // Count all aces as value 1
+        sum += numAces;
+
+        // Increase value of one ace to 11 if possible
+        // Having two aces with value 11 is always > 21, so at most one is 11
+        if(numAces > 0 && sum+10 <= 21){
+            return sum+10;
+        }
+        return sum;
+    }
+
+    public static ArrayList<Card> initialCards(Deck deck){
+        ArrayList<Card> cards = new ArrayList<Card>();
+        Card card1 = deck.draw();
+        Card card2 = deck.draw();
+        cards.add(card1);
+        cards.add(card2);
+        return cards;
+    }
+
 }

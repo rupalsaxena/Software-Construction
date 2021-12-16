@@ -1,7 +1,8 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 
-public class Casion {
+public class Casino {
 
 
     public static String playBlackjack(Integer bet, Player player, Player dealer){
@@ -17,22 +18,22 @@ public class Casion {
         System.out.println("\nYou bet CHF: " + bet + "\n");
 //        System.out.println("-----------------------------");
 //        System.out.println("Your cards: ");
-        userCards = initialCards(deck);
+        userCards = utils.initialCards(deck);
 //        for(int i=0; i < userCards.size(); i++){
 //            userCards.get(i).print();
 //        }
         // get value of cards
-        pointsUser = cardValues(userCards, pointsUser);
+        pointsUser = utils.cardValues(userCards);
 //        System.out.println("Your points: " + pointsUser);
 
         // get two cards for dealer
 //        System.out.println("\nDealer cards: ");
-        dealerCards = initialCards(deck);
+        dealerCards = utils.initialCards(deck);
 //        dealerCards.get(0).print();
         // get value of cards
         ArrayList<Card> modifiedDealerCards = new ArrayList<Card>();
         modifiedDealerCards.add(dealerCards.get(0));
-        pointsDealer = cardValues(modifiedDealerCards, pointsDealer);
+        pointsDealer = utils.cardValues(modifiedDealerCards);
 //        System.out.println("Dealer Points: " + pointsDealer);
 
         utils.printTable(player.name, dealer.name, userCards, modifiedDealerCards, pointsUser, pointsDealer);
@@ -62,13 +63,15 @@ public class Casion {
 //                for(int i=0; i < userCards.size(); i++){
 //                    userCards.get(i).print();
 //                }
-                ArrayList<Card> newCard = new ArrayList<Card>();
+
+                /*                ArrayList<Card> newCard = new ArrayList<Card>();
                 newCard.add(card3);
                 Integer pointNewCard = cardValues(newCard, pointsUser);
                 pointsUser += pointNewCard;
-
+*/
+                pointsUser = utils.cardValues(userCards);
                 if(pointsUser > 21){
-                    pointsDealer = cardValues(dealerCards, pointsDealer);
+                    pointsDealer = utils.cardValues(dealerCards);
                     utils.printTable(player.name, dealer.name, userCards, dealerCards, pointsUser, pointsDealer);
                     result = "Loose";
                     break;
@@ -87,23 +90,25 @@ public class Casion {
 
 
         if(!result.equals("Loose")){
-            pointsDealer = cardValues(dealerCards, pointsDealer);
+            pointsDealer = utils.cardValues(dealerCards);
             utils.printAndWait("Dealers hidden card was " + dealerCards.get(1));
         }
      
-        // Dealer draws cards
-        while(pointsDealer < pointsUser && pointsUser <= 21){
+        // Dealer draws cards.
+        // TODO: Maybe move loop in previous if-clause
+        while(pointsDealer < pointsUser && pointsUser <= 21 && pointsDealer <= 17){
             Card card4 = deck.draw();
             dealerCards.add(card4);
             /*System.out.println("\nDealer Cards: ");
             for(int i=0; i < dealerCards.size(); i++){
                 dealerCards.get(i).print();
             }*/
-            ArrayList<Card> newCardDealer = new ArrayList<Card>();
+/*            ArrayList<Card> newCardDealer = new ArrayList<Card>();
             newCardDealer.add(card4);
             Integer pointNewCardDealer = cardValues(newCardDealer, pointsUser);
             pointsDealer += pointNewCardDealer;
-
+*/
+            pointsDealer = utils.cardValues(dealerCards);
             utils.printAndWait("Dealer drew " + card4.toString());
             if(pointsDealer > 21){
                 // System.out.println("Dealer points: " + pointsDealer + " / Your points: " + pointsUser + "\n");
@@ -159,26 +164,4 @@ public class Casion {
 
     }
 
-    private static ArrayList<Card> initialCards(Deck deck){
-        ArrayList<Card> cards = new ArrayList<Card>();
-        Card card1 = deck.draw();
-        Card card2 = deck.draw();
-        cards.add(card1);
-        cards.add(card2);
-        return cards;
-
-    }
-
-    private static Integer cardValues(ArrayList<Card> cards, Integer points){
-        Integer sum = 0;
-        for(int i=0; i<cards.size(); i++){
-            Integer value = cards.get(i).getValue(points+sum);
-            sum += value;
-        }
-        
-        return sum;
-    }
-
-    
-    
 }

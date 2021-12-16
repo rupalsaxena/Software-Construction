@@ -4,7 +4,7 @@ enum Suit {Spades, Hearts, Diamonds, Clubs}
 enum Rank {Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King}
 
 
-public class Card {
+public class Card implements Comparable<Card>{
     private Rank cRank;
     private Suit cSuit;
 
@@ -31,17 +31,15 @@ public class Card {
         return String.format("%s %s", cRank.toString(), suit);
     }
 
-    public Integer getValue(Integer points) {
+    public Integer getValue() {
         Integer value = 0;
         if(cRank.toString().equals("Jack") || cRank.toString().equals("Queen") || cRank.toString().equals("King") || cRank.toString().equals("Ten")){
             value = 10;
         } 
 
         else if(cRank.toString().equals("Ace")){
-            value = 11;
-            if(points + value > 21 ){
-                value = 1;
-            }
+            //Technically not used, handled in cardValues
+            value = 1;
         }
         else if(cRank.toString().equals("One")){
             value = 1;
@@ -75,4 +73,18 @@ public class Card {
         return value;
     }
 
+    @Override
+    public int compareTo(Card other) {
+        // separates Aces from rest
+        if(this.getRank() == Rank.Ace){
+            if(other.getRank() == Rank.Ace){
+                return 0; //Equal
+            } else{ return 1; } // this is bigger
+        } else if(this.getRank() != Rank.Ace){
+            if(other.getRank() == Rank.Ace){
+                return -1; // other is bigger
+            } else{ return 0; } // "Equal"
+        }
+        return -999;
+    }
 }

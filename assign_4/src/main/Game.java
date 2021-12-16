@@ -1,6 +1,3 @@
-import java.util.Iterator;
-
-
 public class Game {
     public static void main(String[] args) {
 
@@ -44,7 +41,7 @@ public class Game {
 
             if(gameState.equals("No") || gameState.equals("no")) {
                 if(user.get_balance() > 0){
-                System.out.print("Game is done. You win CHF " + user.get_balance() + "\n");
+                System.out.print("Game is over. You win CHF " + user.get_balance() + "\n");
                 break;
                 }
                 else{
@@ -65,8 +62,8 @@ public class Game {
                 }
                 
             }
-            String result = Casion.playBlackjack(bet, user, bank);
-            utils.printAndWait("\nYou " + result + " the round \n");
+            String result = Casino.playBlackjack(bet, user, bank);
+            utils.printAndWait("\nYou " + result + " this round \n");
             System.out.println("-----------------------------");
 
         }

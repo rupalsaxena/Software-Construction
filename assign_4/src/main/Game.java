@@ -56,7 +56,7 @@ public class Game {
                 }
                 
             }
-            String result = Casion.playBlackjack(bet, user, bank);
+            String result = Casino.playBlackjack(bet, user, bank);
             System.out.println("\nYou " + result + " the game \n");
             System.out.println("-----------------------------");
 

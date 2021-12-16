@@ -91,7 +91,7 @@ public class Casino {
         }
      
 
-        while(pointsDealer < pointsUser && pointsUser <= 21){
+        while(pointsDealer < 17 && pointsUser <= 21){
             Card card4 = deck.draw();
             dealerCards.add(card4);
             System.out.println("\nDealer Cards: ");

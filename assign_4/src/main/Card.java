@@ -38,8 +38,7 @@ public class Card implements Comparable<Card>{
         } 
 
         else if(cRank.toString().equals("Ace")){
-            //Technically not used, handled in cardValues
-            value = 1;
+            value = 11;
         }
         else if(cRank.toString().equals("One")){
             value = 1;

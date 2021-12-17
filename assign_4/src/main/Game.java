@@ -21,7 +21,7 @@ public class Game {
             // boolean money_left = user.remove_balance(120);
             // System.out.println(money_left);
             while(true){
-                if(user.get_balance() < 0){
+                if(user.get_balance() <= 0){
                     gameState = "No";
                     break;
                 }

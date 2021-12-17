@@ -96,44 +96,44 @@ public class utils {
         }
     }
 
-    // public static Integer cardValues(ArrayList<Card> cards){$
-    //     Integer sum = 0;
-    //     int numAces = 0;
-    //     ArrayList<Card> cardsCopy = new ArrayList<Card>(cards);
-    //     Collections.sort(cardsCopy);
+    public static Integer cardValues(ArrayList<Card> cards){
+        Integer sum = 0;
+        int numAces = 0;
+        ArrayList<Card> cardsCopy = new ArrayList<Card>(cards);
+        Collections.sort(cardsCopy);
 
-    //     for (Card card : cardsCopy) {
-    //         if (card.getRank() != Rank.Ace) {
-    //             Integer value = card.getValue();
-    //             sum += value;
-    //         } else {
-    //             numAces += 1;
-    //         }
-    //     }
-
-    //     // Count all aces as value 1
-    //     sum += numAces;
-
-    //     // Increase value of one ace to 11 if possible
-    //     // Having two aces with value 11 is always > 21, so at most one is 11
-    //     if(numAces > 0 && sum+10 <= 21){
-    //         return sum+10;
-    //     }
-    //     return sum;
-    // }
-
-    public static Integer cardValues(ArrayList<Card> cards, Integer points){
-        Integer sum = points;
-        for(int i=0; i<cards.size(); i++){
-            Integer value = cards.get(i).getValue();
-            if(value == 11 && sum + value > 21){
-               value = 1;
+        for (Card card : cardsCopy) {
+            if (card.getRank() != Rank.Ace) {
+                Integer value = card.getValue();
+                sum += value;
+            } else {
+                numAces += 1;
             }
-            sum += value;
         }
-        
+
+        // Count all aces as value 1
+        sum += numAces;
+
+        // Increase value of one ace to 11 if possible
+        // Having two aces with value 11 is always > 21, so at most one is 11
+        if(numAces > 0 && sum+10 <= 21){
+            return sum+10;
+        }
         return sum;
     }
+
+    // public static Integer cardValues(ArrayList<Card> cards, Integer points){
+    //     Integer sum = points;
+    //     for(int i=0; i<cards.size(); i++){
+    //         Integer value = cards.get(i).getValue();
+    //         if(value == 11 && sum + value > 21){
+    //            value = 1;
+    //         }
+    //         sum += value;
+    //     }
+        
+    //     return sum;
+    // }
 
     public static ArrayList<Card> initialCards(Deck deck){
         ArrayList<Card> cards = new ArrayList<Card>();

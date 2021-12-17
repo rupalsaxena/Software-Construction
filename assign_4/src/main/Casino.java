@@ -23,7 +23,7 @@ public class Casino {
 //            userCards.get(i).print();
 //        }
         // get value of cards
-        pointsUser = utils.cardValues(userCards, pointsUser);
+        pointsUser = utils.cardValues(userCards);
 //        System.out.println("Your points: " + pointsUser);
 
         // get two cards for dealer
@@ -33,7 +33,7 @@ public class Casino {
         // get value of cards
         ArrayList<Card> modifiedDealerCards = new ArrayList<Card>();
         modifiedDealerCards.add(dealerCards.get(0));
-        pointsDealer = utils.cardValues(modifiedDealerCards, pointsDealer);
+        pointsDealer = utils.cardValues(modifiedDealerCards);
 //        System.out.println("Dealer Points: " + pointsDealer);
 
         utils.printTable(player.name, dealer.name, userCards, modifiedDealerCards, pointsUser, pointsDealer);
@@ -64,13 +64,14 @@ public class Casino {
 //                    userCards.get(i).print();
 //                }
 
-                ArrayList<Card> newCard = new ArrayList<Card>();
+                /*                ArrayList<Card> newCard = new ArrayList<Card>();
                 newCard.add(card3);
-                pointsUser = utils.cardValues(newCard, pointsUser);
-
-                // pointsUser = utils.cardValues(userCards);
+                Integer pointNewCard = cardValues(newCard, pointsUser);
+                pointsUser += pointNewCard;
+*/
+                pointsUser = utils.cardValues(userCards);
                 if(pointsUser > 21){
-                    pointsDealer = utils.cardValues(dealerCards, 0);
+                    pointsDealer = utils.cardValues(dealerCards);
                     utils.printTable(player.name, dealer.name, userCards, dealerCards, pointsUser, pointsDealer);
                     result = "Loose";
                     break;
@@ -89,25 +90,25 @@ public class Casino {
 
 
         if(!result.equals("Loose")){
-            pointsDealer = utils.cardValues(dealerCards, 0);
+            pointsDealer = utils.cardValues(dealerCards);
             utils.printAndWait("Dealers hidden card was " + dealerCards.get(1));
         }
      
         // Dealer draws cards.
         // TODO: Maybe move loop in previous if-clause
-        while(pointsUser <= 21 && pointsDealer < 17){
+        while(pointsUser < 21 && pointsDealer < 17){
             Card card4 = deck.draw();
             dealerCards.add(card4);
             /*System.out.println("\nDealer Cards: ");
             for(int i=0; i < dealerCards.size(); i++){
                 dealerCards.get(i).print();
             }*/
-            ArrayList<Card> newCardDealer = new ArrayList<Card>();
+/*            ArrayList<Card> newCardDealer = new ArrayList<Card>();
             newCardDealer.add(card4);
-            pointsDealer= utils.cardValues(newCardDealer, pointsDealer);
-            
-
-            // pointsDealer = utils.cardValues(dealerCards);
+            Integer pointNewCardDealer = cardValues(newCardDealer, pointsUser);
+            pointsDealer += pointNewCardDealer;
+*/
+            pointsDealer = utils.cardValues(dealerCards);
             utils.printAndWait("Dealer drew " + card4.toString());
             if(pointsDealer > 21){
                 // System.out.println("Dealer points: " + pointsDealer + " / Your points: " + pointsUser + "\n");

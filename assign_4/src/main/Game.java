@@ -7,13 +7,8 @@ public class Game {
 
     private static void play() {
         System.out.println("Welcome to Blackjack! \n");
-        Deck deck = new Deck();
-        Card card = deck.draw();
         String gameState;
         Integer bet;
-        // card.print();
-        // System.out.println(card.getRank());
-        // System.out.println(card.getSuit());
         Player user = new Player("user", 100);
         Player bank = new Player("bank", 100000);
         while(true){
@@ -21,7 +16,7 @@ public class Game {
             // boolean money_left = user.remove_balance(120);
             // System.out.println(money_left);
             while(true){
-                if(user.get_balance() <= 0){
+                if(user.get_balance() <= 0 || bank.get_balance() <= 0){
                     gameState = "No";
                     break;
                 }
@@ -40,12 +35,16 @@ public class Game {
             }
 
             if(gameState.equals("No") || gameState.equals("no")) {
-                if(user.get_balance() > 0){
-                System.out.print("Game is over. You win CHF " + user.get_balance() + "\n");
-                break;
+                if(user.get_balance() > 0 && bank.get_balance() > 0){
+                    System.out.print("Game is over. You win CHF " + user.get_balance() + "\n");
+                    break;
+                }
+                else if(bank.get_balance() <= 0){
+                    System.out.print("You outplayed the Casino. It has no money left.");
+                    break;
                 }
                 else{
-                    System.out.print("Game over. No money left\n");
+                    System.out.print("Game over. You have no money left to bet\n");
                     break; 
                 }
             }

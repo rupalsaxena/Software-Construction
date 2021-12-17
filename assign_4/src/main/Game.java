@@ -12,7 +12,7 @@ public class Game {
         Player user = new Player("user", 100);
         Player bank = new Player("bank", 100000);
         while(true){
-            System.out.println("You current amount: CHF " + user.get_balance());
+            System.out.println("Your current balance: CHF " + user.get_balance());
             // boolean money_left = user.remove_balance(120);
             // System.out.println(money_left);
             while(true){
@@ -36,7 +36,7 @@ public class Game {
 
             if(gameState.equals("No") || gameState.equals("no")) {
                 if(user.get_balance() > 0 && bank.get_balance() > 0){
-                    System.out.print("Game is over. You win CHF " + user.get_balance() + "\n");
+                    System.out.print("Game is over. You walk away with CHF " + user.get_balance() + "\n");
                     break;
                 }
                 else if(bank.get_balance() <= 0){

@@ -9,7 +9,10 @@ public class Game {
         System.out.println("Welcome to Blackjack! \n");
         String gameState;
         Integer bet;
-        Player user = new Player("user", 100);
+
+        String userName = String.format("%.8s", utils.inputName());
+
+        Player user = new Player(userName, 100);
         Player bank = new Player("bank", 100000);
         while(true){
             System.out.println("Your current balance: CHF " + user.get_balance());

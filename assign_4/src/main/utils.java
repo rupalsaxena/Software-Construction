@@ -55,6 +55,11 @@ public class utils {
         }
     }
 
+    public static String inputName(){
+        System.out.println("Please enter your name with less than 8 characters: ");
+        return scanner.nextLine();
+    }
+
     public static void printTable(String player, String dealer, ArrayList<Card> playerCards, ArrayList<Card> dealerCards, int playerPoints, int dealerPoints){
         int max = Math.max(playerCards.size(), dealerCards.size());
         ArrayList<String> pCardsString = new ArrayList<>();

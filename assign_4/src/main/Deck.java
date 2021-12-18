@@ -29,17 +29,10 @@ public class Deck implements CardSource{
         }
     }
 
-    public void print(int amount){
-        System.out.format("%7s | %8s | %8s\n ---------------------------------\n"," ", "player", "dealer");
-        for(int i=0; i<amount; i++){
-            Card card = this.draw();
-            System.out.format("%7s | %8s | %8s\n","Cards", card, card);
-        }
-        System.out.format("---------------------------------\n%7s | %8d | %8d\n ","Points", 12, 15);
-    }
+
     @Override
     public Card draw() {
-        // Refill deck if empty, then draw card
+        // Refill deck if empty, then draw & return card
         if (Cards.isEmpty()) {
             this.newDeck();
         }

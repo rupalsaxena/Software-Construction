@@ -16,8 +16,6 @@ public class Game {
         Player bank = new Player("bank", 100000);
         while(true){
             System.out.println("Your current balance: CHF " + user.getBalance());
-            // boolean money_left = user.remove_balance(120);
-            // System.out.println(money_left);
             while(true){
                 if(user.getBalance() <= 0 || bank.getBalance() <= 0){
                     gameState = "No";

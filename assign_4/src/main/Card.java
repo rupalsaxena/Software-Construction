@@ -21,6 +21,7 @@ public class Card implements Comparable<Card>{
     }
 
     public String toString(){
+        // Returns String encoding the information of the object: Rank Suit
         String suit = "";
         switch (this.cSuit) {
             case Spades -> suit = "\u2660";
@@ -32,12 +33,14 @@ public class Card implements Comparable<Card>{
     }
 
     public Integer getValue() {
+        // Returns the "value" a card has, used to count player & dealer's points
         Integer value = 0;
         if(cRank.toString().equals("Jack") || cRank.toString().equals("Queen") || cRank.toString().equals("King") || cRank.toString().equals("Ten")){
             value = 10;
         } 
 
         else if(cRank.toString().equals("Ace")){
+            // Can be 1 or 11, but this is handled separately in utils.cardValues
             value = 11;
         }
         else if(cRank.toString().equals("One")){
@@ -74,6 +77,9 @@ public class Card implements Comparable<Card>{
 
     @Override
     public int compareTo(Card other) {
+        /*
+         * Can be used to sort cards, allows for reusability & extendability of class
+         */
         // separates Aces from rest
         if(this.getRank() == Rank.Ace){
             if(other.getRank() == Rank.Ace){

@@ -78,8 +78,7 @@ public class Casino {
             utils.printAndWait("Dealers hidden card was " + dealerCards.get(1));
         }
      
-        // Dealer draws cards.
-        // TODO: Maybe move loop in previous if-clause
+        // Dealer draws cards
         while(pointsUser < 21 && pointsDealer < 17){
             Card card4 = deck.draw();
             dealerCards.add(card4);

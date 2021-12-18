@@ -1,6 +1,11 @@
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 public class utilsTest {
     @Test
@@ -88,18 +93,29 @@ public class utilsTest {
     }
 
     @Test
-    public void inputName() {
+    public void testinputName() {
+        System.setIn(new ByteArrayInputStream("JohnDoe\n".getBytes()));
+        assertEquals("JohnDoe", utils.inputName());
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testIllegalArgumentException() {
+        System.setIn(new ByteArrayInputStream("JohnnyDoe\n".getBytes()));
+        utils.inputName();
+    }
+
+    @Test
+    public void testcardValues() {
 
     }
 
     @Test
-    public void cardValues() {
-
-    }
-
-    @Test
-    public void initialCards() {
-
+    public void testinitialCards() {
+        ArrayList<Card> actual = utils.initialCards(new Deck());
+        for (int i=0; i<actual.size(); i++) {
+            Card testCard = actual.get(i);
+            assertTrue(testCard instanceof Card);
+        }
     }
 
     // check how to test methods which do not return anything

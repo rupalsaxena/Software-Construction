@@ -5,7 +5,7 @@ public class Casino {
 
 
     public static String playBlackjack(Integer bet, Player player, Player dealer){
-        Deck deck = new Deck();
+        Deck deck = Deck.getInstance();
         String gameState = "Hit";
         Integer pointsUser = 0;
         Integer pointsDealer = 0;

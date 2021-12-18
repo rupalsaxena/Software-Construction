@@ -61,10 +61,17 @@ public class utils {
         }
     }
 
-    public static String inputName(){
-        // Used to get player's name in the beginning
-        System.out.println("Please enter your name with less than 8 characters: ");
-        return scanner.nextLine();
+    public static String inputName() throws IllegalArgumentException {
+        System.out.println("Please enter your name with up to 8 characters: ");
+        String name = scanner.nextLine();
+        Integer nameLength = name.length();
+        if (nameLength > 8){
+            throw new IllegalArgumentException("Name length is more than 8 characters long");
+        }
+        else {
+            return name;
+        }
+
     }
 
     public static void printTable(String player, String dealer, ArrayList<Card> playerCards, ArrayList<Card> dealerCards, int playerPoints, int dealerPoints){

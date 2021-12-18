@@ -3,13 +3,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck implements CardSource{
-
-    private List<Card> Cards = new ArrayList<>();
-
-    public Deck(){
+    // Singleton Pattern implemented in this class
+    private static Deck instance = new Deck();
+    private Deck(){
         this.newDeck();
     }
+    public static Deck getInstance() {
+        return instance;
+    }
 
+    private List<Card> Cards = new ArrayList<>();
     private void shuffle(){
         Collections.shuffle(Cards);
     }

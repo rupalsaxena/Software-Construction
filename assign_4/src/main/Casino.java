@@ -95,8 +95,8 @@ public class Casino {
         if(result.isEmpty()){
             // Player looses
             if(pointsUser < pointsDealer){
-                player.remove_balance(bet);
-                dealer.add_balance(bet);
+                player.removeBalance(bet);
+                dealer.addBalance(bet);
                 result = "Loose";
                 utils.printTable(player.name, dealer.name, userCards, dealerCards, pointsUser, pointsDealer);
                 return result;
@@ -113,21 +113,21 @@ public class Casino {
 
             // Player wins
             else{
-                player.add_balance(bet);
-                dealer.remove_balance(bet);
+                player.addBalance(bet);
+                dealer.removeBalance(bet);
                 result = "Win";
                 utils.printTable(player.name, dealer.name, userCards, dealerCards, pointsUser, pointsDealer);
                 return result;
             }
         }
         else if(result.equals("Loose")){
-            player.remove_balance(bet);
-            dealer.add_balance(bet);
+            player.removeBalance(bet);
+            dealer.addBalance(bet);
             return result;
         }
         else if(result.equals("Win")){
-            player.add_balance(bet);
-            dealer.remove_balance(bet);
+            player.addBalance(bet);
+            dealer.removeBalance(bet);
             utils.printTable(player.name, dealer.name, userCards, dealerCards, pointsUser, pointsDealer);
             return result;
         }

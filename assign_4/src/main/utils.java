@@ -31,7 +31,7 @@ public class utils {
     public static Boolean validBetInput(String string, Player player){
         if(string.matches("[0-9]+")){
             Integer input = Integer.valueOf(string);
-            if(player.get_balance() >= input){
+            if(player.getBalance() >= input){
                 return true;
             }
         }

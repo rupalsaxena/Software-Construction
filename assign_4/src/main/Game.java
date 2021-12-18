@@ -15,11 +15,11 @@ public class Game {
         Player user = new Player(userName, 100);
         Player bank = new Player("bank", 100000);
         while(true){
-            System.out.println("Your current balance: CHF " + user.get_balance());
+            System.out.println("Your current balance: CHF " + user.getBalance());
             // boolean money_left = user.remove_balance(120);
             // System.out.println(money_left);
             while(true){
-                if(user.get_balance() <= 0 || bank.get_balance() <= 0){
+                if(user.getBalance() <= 0 || bank.getBalance() <= 0){
                     gameState = "No";
                     break;
                 }
@@ -38,11 +38,11 @@ public class Game {
             }
 
             if(gameState.equals("No") || gameState.equals("no")) {
-                if(user.get_balance() > 0 && bank.get_balance() > 0){
-                    System.out.print("Game is over. You walk away with CHF " + user.get_balance() + "\n");
+                if(user.getBalance() > 0 && bank.getBalance() > 0){
+                    System.out.print("Game is over. You walk away with CHF " + user.getBalance() + "\n");
                     break;
                 }
-                else if(bank.get_balance() <= 0){
+                else if(bank.getBalance() <= 0){
                     System.out.print("You outplayed the Casino. It has no money left.");
                     break;
                 }

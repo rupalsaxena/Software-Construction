@@ -29,3 +29,4 @@ public class GameTest {
         assertTrue(actualMessage2.contains(expectedMessage2));
     }
 }
+//test invalid inputs

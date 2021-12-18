@@ -6,3 +6,5 @@ public class CasinoTest {
         // already tested along with Game class
     }
 }
+// returns lose, win, tie
+//check among these

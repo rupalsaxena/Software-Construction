@@ -155,19 +155,6 @@ public class utils {
         return sum;
     }
 
-    // public static Integer cardValues(ArrayList<Card> cards, Integer points){
-    //     Integer sum = points;
-    //     for(int i=0; i<cards.size(); i++){
-    //         Integer value = cards.get(i).getValue();
-    //         if(value == 11 && sum + value > 21){
-    //            value = 1;
-    //         }
-    //         sum += value;
-    //     }
-        
-    //     return sum;
-    // }
-
     public static ArrayList<Card> initialCards(Deck deck){
         ArrayList<Card> cards = new ArrayList<Card>();
         Card card1 = deck.draw();

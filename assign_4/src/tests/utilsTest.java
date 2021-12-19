@@ -1,7 +1,10 @@
+import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
@@ -94,14 +97,19 @@ public class utilsTest {
 
     @Test
     public void testinputName() {
+//        Scanner scan = new Scanner(System.in);
+//        InputStream sysInBackup = System.in;
         System.setIn(new ByteArrayInputStream("JohnDoe\n".getBytes()));
         assertEquals("JohnDoe", utils.inputName());
+//        System.setIn(sysInBackup);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testIllegalArgumentException() {
+//        InputStream sysInBackup = System.in;
         System.setIn(new ByteArrayInputStream("JohnnyDoe\n".getBytes()));
         utils.inputName();
+//        System.setIn(sysInBackup);
     }
 
     @Test
@@ -111,7 +119,7 @@ public class utilsTest {
 
     @Test
     public void testinitialCards() {
-        ArrayList<Card> actual = utils.initialCards(new Deck());
+        ArrayList<Card> actual = utils.initialCards(Deck.getInstance());
         for (int i=0; i<actual.size(); i++) {
             Card testCard = actual.get(i);
             assertTrue(testCard instanceof Card);

@@ -55,7 +55,7 @@ public class Casino {
                     if(pointsUser > 21){
                         pointsDealer = utils.cardValues(dealerCards);
                         utils.printTable(player.name, dealer.name, userCards, dealerCards, pointsUser, pointsDealer);
-                        result = "Loose";
+                        result = "Lose";
                         break;
                     }
                     else if(pointsUser.equals(21)){
@@ -73,7 +73,7 @@ public class Casino {
 
 
 
-        if(!result.equals("Loose")){
+        if(!result.equals("Lose")){
             pointsDealer = utils.cardValues(dealerCards);
             utils.printAndWait("Dealers hidden card was " + dealerCards.get(1));
         }
@@ -92,11 +92,11 @@ public class Casino {
         }
 
         if(result.isEmpty()){
-            // Player looses
+            // Player loses
             if(pointsUser < pointsDealer){
                 player.removeBalance(bet);
                 dealer.addBalance(bet);
-                result = "Loose";
+                result = "Lose";
                 utils.printTable(player.name, dealer.name, userCards, dealerCards, pointsUser, pointsDealer);
                 return result;
             }
@@ -119,7 +119,7 @@ public class Casino {
                 return result;
             }
         }
-        else if(result.equals("Loose")){
+        else if(result.equals("Lose")){
             player.removeBalance(bet);
             dealer.addBalance(bet);
             return result;

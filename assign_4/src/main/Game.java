@@ -13,7 +13,7 @@ public class Game {
         String userName = String.format("%.8s", utils.inputName());
 
         Player user = new Player(userName, 100);
-        Player bank = new Player("bank", 100000);
+        Player bank = new Player("dealer", 100000);
         while(true){
             System.out.println("Your current balance: CHF " + user.getBalance());
             while(true){

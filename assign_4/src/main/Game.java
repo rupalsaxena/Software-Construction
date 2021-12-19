@@ -1,4 +1,8 @@
 public class Game {
+    /*
+    This is the entry point class of the Blackjack Game.
+     */
+
     public static void main(String[] args) {
 
         play();
@@ -6,6 +10,11 @@ public class Game {
     }
 
     private static void play() {
+        /*
+        This method is reponsible to play the entire game.
+        Once it takes all the inputs from the user, it plays the Black jack game.
+        It will continue the game until there is either game over or player don't wanna play anymore.
+         */
         System.out.println("Welcome to Blackjack! \n");
         String gameState;
         Integer bet;
@@ -13,7 +22,7 @@ public class Game {
         String userName = String.format("%.8s", utils.inputName());
 
         Player user = new Player(userName, 100);
-        Player bank = new Player("dealer", 100000);
+        Player bank = new Player("Dealer", 100000);
         while(true){
             System.out.println("Your current balance: CHF " + user.getBalance());
             while(true){
@@ -67,7 +76,5 @@ public class Game {
             System.out.println("-----------------------------");
 
         }
-
     }
-
 }

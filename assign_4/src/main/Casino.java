@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 
-
 public class Casino {
-
+    /*
+    This class play Black jack and only have one method.
+     */
 
     public static String playBlackjack(Integer bet, Player player, Player dealer){
         Deck deck = Deck.getInstance();

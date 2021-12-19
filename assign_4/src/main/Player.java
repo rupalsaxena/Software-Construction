@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Player {
     public final String name;
     private int money;

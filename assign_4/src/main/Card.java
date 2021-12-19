@@ -1,10 +1,12 @@
-
-
 enum Suit {Spades, Hearts, Diamonds, Clubs}
 enum Rank {Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King}
 
 
 public class Card implements Comparable<Card>{
+    /*
+    Card implements comparable. This is because we want this
+    class to be comparable so that we can compare two cards.
+     */
     private Rank cRank;
     private Suit cSuit;
 

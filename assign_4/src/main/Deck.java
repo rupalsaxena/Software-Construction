@@ -3,7 +3,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Deck implements CardSource{
-    // Singleton Pattern implemented in this class
+    /*
+    This class implements CardSource interface.
+    Deck is a Single Object class and we implemented Singleton pattern
+    in this class.
+     */
     private static Deck instance = new Deck();
     private Deck(){
         this.newDeck();
@@ -31,7 +35,6 @@ public class Deck implements CardSource{
             this.shuffle();
         }
     }
-
 
     @Override
     public Card draw() {

@@ -4,6 +4,10 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class utils {
+    /*
+    This is not important class. However, it is a very helping class.
+    It has all the methods which are needed for small use cases.
+     */
     private static Scanner scanner = new Scanner(System.in);
 
     public static String inputDecision() {
@@ -39,9 +43,7 @@ public class utils {
                 return true;
             }
         }
-
         return false;
-
     }
 
     public static String inputCardDecision(){
@@ -71,7 +73,6 @@ public class utils {
         else {
             return name;
         }
-
     }
 
     public static void printTable(String player, String dealer, ArrayList<Card> playerCards, ArrayList<Card> dealerCards, int playerPoints, int dealerPoints){
